@@ -10,7 +10,7 @@ enum Etat {
 }
 
 @Entity
-@Table(name = "eventInvitation")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Invitation extends Evenement{
     private Etat etat;
     private User userInvite;

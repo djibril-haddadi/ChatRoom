@@ -3,7 +3,7 @@ package com.example.demo;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "eventSupression")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Supression extends Evenement{
     private String raison;
     private User userSuprime;

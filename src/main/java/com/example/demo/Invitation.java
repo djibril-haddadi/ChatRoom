@@ -8,4 +8,5 @@ enum Etat {
 }
 public class Invitation extends Evenement{
     private Etat etat;
+    private User userInvite;
 }

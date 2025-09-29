@@ -11,6 +11,7 @@ public class User {
     private List<Message> messages;
     private List<Salon> salons;
     private List<Salon> salonsCree;
+    private List<Invitation> invitations;
 
     public void setNom(String nom) {
         this.nom = nom;

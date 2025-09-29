@@ -1,27 +1,21 @@
 package com.example.demo;
+
+import java.util.List;
+
 public class User {
-    private long id;
-    private String name;
+    private String nom;
     private String prenom;
     private String pseudo;
     private String email;
     private String mdp;
+    private List<Message> messages;
+    private List<Salon> salons;
+    private List<Salon> salonsCree;
 
-
-    public User(long id, String name) {
-        this.id = id;
-        this.name = name;
+    public void setNom(String nom) {
+        this.nom = nom;
     }
-    public void setId(long id) {
-        this.id = id;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public long getId() {
-        return id;
-    }
-    public String getName() {
-        return name;
+    public String getNom() {
+        return nom;
     }
 }

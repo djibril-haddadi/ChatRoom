@@ -11,6 +11,6 @@ public class SalonController {
     public String addSalon(@RequestParam(value = "name",
             defaultValue = "World") String name)
     {
-        return "Hello, " + name + "!";
+        return "titre:" + name;
     }
 }

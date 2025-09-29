@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(name = "utilisateurs")
+@Table(name = "utilisateur")
 public class User {
     private String nom;
     private String prenom;

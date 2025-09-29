@@ -10,7 +10,6 @@ public class UserController {
     @GetMapping("/user")
     public User getUser(@RequestParam(value = "name",
             defaultValue = "World") String name) {
-        return new User(counter.incrementAndGet(),
-                String.format(template, name));
+        return new User();
     }
 }

@@ -1,11 +1,16 @@
 package com.example.demo;
 
+import jakarta.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
+@Entity
+@Table(name = "utilisateurs")
 public class User {
     private String nom;
     private String prenom;
     private String pseudo;
+    @Id
     private String email;
     private String mdp;
     private List<Message> messages;

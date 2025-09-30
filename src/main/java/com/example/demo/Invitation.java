@@ -12,6 +12,8 @@ enum Etat {
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Invitation extends Evenement{
+    @Enumerated(EnumType.STRING)
     private Etat etat;
+    @OneToOne
     private User userInvite;
 }

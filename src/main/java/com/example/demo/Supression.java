@@ -6,5 +6,6 @@ import jakarta.persistence.*;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Supression extends Evenement{
     private String raison;
+    @OneToOne
     private User userSuprime;
 }

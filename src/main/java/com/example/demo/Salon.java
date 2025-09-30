@@ -9,7 +9,10 @@ public class Salon {
     @Id
     private String titre;
     private String description;
+    @OneToMany
     private List<Evenement> evenements;// on pourrait utiliser une autre structure
+    @OneToMany
     private List<Message> messages;
+    @OneToMany
     private List<User> userList;
 }

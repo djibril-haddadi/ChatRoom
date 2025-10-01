@@ -8,6 +8,10 @@ import jakarta.persistence.*;
 public class Evenement {
     @Id
     @GeneratedValue
-    private int id;
-    private Date date;
+    protected int id;
+    protected Date date;
+
+    Evenement(Date newDate){
+        this.date = newDate;
+    }
 }

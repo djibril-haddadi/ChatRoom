@@ -22,8 +22,8 @@ public class UserController {
             @RequestParam("pseudo") String pseudo,
             @RequestParam("email") String email,
             @RequestParam("mdp") String mdp) {
-        User m1 = new User(email, nom, prenom, pseudo, mdp);
-        userRepo.save(m1);
+        User u1 = new User(email, nom, prenom, pseudo, mdp);
+        userRepo.save(u1);
         return ResponseEntity.ok("User created successfully.");
     }
 }

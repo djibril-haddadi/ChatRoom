@@ -2,6 +2,8 @@ package com.example.demo;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 enum Etat {
     EN_ATTENTE,
     ACCEPTEE,
@@ -16,4 +18,10 @@ public class Invitation extends Evenement{
     private Etat etat;
     @OneToOne
     private User userInvite;
+
+    Invitation(Etat newEtat, User newUserInvite, Date newDate){
+        this.etat = newEtat;
+        this.userInvite = newUserInvite;
+        this.date = newDate;
+    }
 }

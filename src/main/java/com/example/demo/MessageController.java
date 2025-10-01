@@ -23,6 +23,6 @@ public class MessageController {
             @RequestParam("date") Date date) {
         Message m1 = new Message(contenu, date);
         messageRepository.save(m1);
-        return ResponseEntity.ok("Person added successfully.");
+        return ResponseEntity.ok("Message added successfully.");
     }
 }

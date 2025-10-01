@@ -1,15 +1,29 @@
 package com.example.demo;
-import java.util.concurrent.atomic.AtomicLong;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+
+import Repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 @RestController
 public class UserController {
-    private static final String template = "Hello, %s!";
-    private final AtomicLong counter = new AtomicLong();
-    @GetMapping("/user")
-    public User getUser(@RequestParam(value = "name",
-            defaultValue = "World") String name) {
-        return new User();
+    @Autowired
+    private UserRepository userRepo;
+
+    @GetMapping("/addUser")
+    public String addUser() {
+        return "addUser";
+    }
+
+    @PostMapping("/addUser")
+    public ResponseEntity<String> addUser(
+            @RequestParam("nom") String nom,
+            @RequestParam("prenom") String prenom,
+            @RequestParam("pseudo") String pseudo,
+            @RequestParam("email") String email,
+            @RequestParam("mdp") String mdp) {
+        User m1 = new User(email, nom, prenom, pseudo, mdp);
+        userRepo.save(m1);
+        return ResponseEntity.ok("User created successfully.");
     }
 }

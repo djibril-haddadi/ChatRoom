@@ -15,4 +15,8 @@ public class Salon {
     private List<Message> messages;
     @OneToMany
     private List<User> userList;
+
+    Salon(String newTitre){
+        this.titre = newTitre;
+    }
 }

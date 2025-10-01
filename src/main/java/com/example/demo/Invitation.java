@@ -20,8 +20,8 @@ public class Invitation extends Evenement{
     private User userInvite;
 
     Invitation(Etat newEtat, User newUserInvite, Date newDate){
+        super(newDate);
         this.etat = newEtat;
         this.userInvite = newUserInvite;
-        this.date = newDate;
     }
 }

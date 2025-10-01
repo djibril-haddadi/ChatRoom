@@ -11,9 +11,9 @@ public class Suppression extends Evenement{
     private User userSupprime;
 
     Suppression(User newUserSupprime, String newRaison, Date newDate){
+        super(newDate);
         this.userSupprime = newUserSupprime;
         this.raison = newRaison;
-        this.date = newDate;
     }
 
 }

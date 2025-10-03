@@ -22,6 +22,8 @@ public class User {
     @OneToMany
     private List<Invitation> invitations;
 
+    User(){}
+
     User(String newEmail, String newNom, String newPrenom, String newPseudo, String newMdp){
         this.email = newEmail;
         this.nom = newNom;

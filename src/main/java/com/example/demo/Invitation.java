@@ -19,6 +19,8 @@ public class Invitation extends Evenement{
     @OneToOne
     private User userInvite;
 
+    Invitation(){}
+
     Invitation(Etat newEtat, User newUserInvite, Date newDate){
         super(newDate);
         this.etat = newEtat;

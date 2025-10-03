@@ -12,6 +12,8 @@ public class Message {
     private String contenu;
     private Date date;
 
+    Message(){}
+
     Message(String newContenu, Date newDate){
         this.contenu = newContenu;
         this.date = newDate;

@@ -9,15 +9,21 @@ public class Salon {
     @Id
     private String titre;
     private String description;
-    @OneToMany
+
+    @OneToMany(mappedBy = "salon", cascade = CascadeType.ALL)
     private List<Evenement> evenements;// on pourrait utiliser une autre structure
-    @OneToMany
+
+    @OneToMany(mappedBy = "salon", cascade = CascadeType.ALL)
     private List<Message> messages;
-    @OneToMany
+
+    @ManyToMany(mappedBy = "salons", cascade = CascadeType.ALL)
     private List<User> userList;
 
-    public Salon(){}
+    @ManyToOne
+    @JoinColumn(name = "creator_email")
+    private User creator;
 
+    Salon(){}
     Salon(String newTitre){
         this.titre = newTitre;
     }

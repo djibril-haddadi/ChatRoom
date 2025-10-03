@@ -11,6 +11,10 @@ public class Evenement {
     protected int id;
     protected Date date;
 
+    @ManyToOne
+    @JoinColumn(name = "salon_titre")
+    protected Salon salon;
+
     public Evenement(){}
 
     Evenement(Date newDate){

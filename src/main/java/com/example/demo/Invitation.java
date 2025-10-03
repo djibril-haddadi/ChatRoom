@@ -19,6 +19,11 @@ public class Invitation extends Evenement{
     @OneToOne
     private User userInvite;
 
+    @ManyToOne
+    @JoinColumn(name = "invited_email")
+    private User invited;
+
+
     public Invitation(){}
 
     Invitation(Etat newEtat, User newUserInvite, Date newDate){

@@ -7,7 +7,9 @@ import java.util.Date;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Suppression extends Evenement{
     private String raison;
-    @OneToOne
+
+    @ManyToOne
+    @JoinColumn(name = "userSupprime_email")
     private User userSupprime;
 
     public Suppression(){}

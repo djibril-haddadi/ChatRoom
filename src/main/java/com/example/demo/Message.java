@@ -12,7 +12,13 @@ public class Message {
     private String contenu;
     private Date date;
 
-    public Message(){}
+    @ManyToOne
+    @JoinColumn(name = "salon_titre")
+    private Salon salon;
+
+    @ManyToOne
+    @JoinColumn(name = "sender_email")
+    private User sender;
 
     Message(String newContenu, Date newDate){
         this.contenu = newContenu;

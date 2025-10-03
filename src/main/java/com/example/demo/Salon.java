@@ -16,7 +16,7 @@ public class Salon {
     @OneToMany
     private List<User> userList;
 
-    Salon(){}
+    public Salon(){}
 
     Salon(String newTitre){
         this.titre = newTitre;

@@ -10,7 +10,7 @@ public class Suppression extends Evenement{
     @OneToOne
     private User userSupprime;
 
-    Suppression(){}
+    public Suppression(){}
 
     Suppression(User newUserSupprime, String newRaison, Date newDate){
         super(newDate);

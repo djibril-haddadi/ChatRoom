@@ -22,7 +22,7 @@ public class User {
     @OneToMany
     private List<Invitation> invitations;
 
-    User(){}
+    public User(){}
 
     User(String newEmail, String newNom, String newPrenom, String newPseudo, String newMdp){
         this.email = newEmail;

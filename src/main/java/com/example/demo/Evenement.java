@@ -11,7 +11,7 @@ public class Evenement {
     protected int id;
     protected Date date;
 
-    Evenement(){}
+    public Evenement(){}
 
     Evenement(Date newDate){
         this.date = newDate;

@@ -1,29 +1,11 @@
-package com.example.demo;
+package DTO;
 
-import jakarta.persistence.*;
+import com.example.demo.*;
 
-import java.util.Date;
-
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Invitation extends Evenement{
-    @Enumerated(EnumType.STRING)
+public class InvitationDTO {
     private Etat etat;
-    @OneToOne
     private User userInvite;
-
-    @ManyToOne
-    @JoinColumn(name = "invited_email")
     private User invited;
-
-
-    public Invitation(){}
-
-    Invitation(Etat newEtat, User newUserInvite, Date newDate){
-        super(newDate);
-        this.etat = newEtat;
-        this.userInvite = newUserInvite;
-    }
 
     //Getter et setter
 
@@ -47,5 +29,4 @@ public class Invitation extends Evenement{
     public void setInvited(User invited) {
         this.invited = invited;
     }
-
 }

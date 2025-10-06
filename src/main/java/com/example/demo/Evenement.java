@@ -17,6 +17,11 @@ public class Evenement {
 
     public Evenement(){}
 
+    Evenement(long id, Date date){
+        this.id = id;
+        this.date = date;
+    }
+
     Evenement(Date newDate){
         this.date = newDate;
     }

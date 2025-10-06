@@ -27,4 +27,49 @@ public class Salon {
     Salon(String newTitre){
         this.titre = newTitre;
     }
+
+    //Getter et setter
+
+    public String getTitre() {
+        return titre;
+    }
+    public void setTitre(String titre) {
+        this.titre = titre;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<Evenement> getEvenements() {
+        return evenements;
+    }
+    public void setEvenements(List<Evenement> evenements) {
+        this.evenements = evenements;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+
+    public List<User> getUserList() {
+        return userList;
+    }
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
+    }
+
+    public User getCreator() {
+        return creator;
+    }
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
+
 }

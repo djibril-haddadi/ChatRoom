@@ -25,4 +25,41 @@ public class Message {
         this.date = newDate;
     }
 
+    //Getter et setter
+
+    public String getContenu() {
+        return contenu;
+    }
+    public void setContenu(String contenu) {
+        this.contenu = contenu;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public User getSender() {
+        return sender;
+    }
+    public void setSender(User sender) {
+        this.sender = sender;
+    }
+
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Salon getSalon() {
+        return salon;
+    }
+    public void setSalon(Salon salon) {
+        this.salon = salon;
+    }
+
 }

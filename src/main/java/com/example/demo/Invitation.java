@@ -31,4 +31,28 @@ public class Invitation extends Evenement{
         this.etat = newEtat;
         this.userInvite = newUserInvite;
     }
+
+    //Getter et setter
+
+    public Etat getEtat() {
+        return etat;
+    }
+    public void setEtat(Etat etat) {
+        this.etat = etat;
+    }
+
+    public User getUserInvite() {
+        return userInvite;
+    }
+    public void setUserInvite(User userInvite) {
+        this.userInvite = userInvite;
+    }
+
+    public User getInvited() {
+        return invited;
+    }
+    public void setInvited(User invited) {
+        this.invited = invited;
+    }
+
 }

@@ -20,4 +20,20 @@ public class Suppression extends Evenement{
         this.raison = newRaison;
     }
 
+    //Getter et setter
+
+    public String getRaison() {
+        return raison;
+    }
+    public void setRaison(String raison) {
+        this.raison = raison;
+    }
+
+    public User getUserSupprime() {
+        return userSupprime;
+    }
+    public void setUserSupprime(User userSupprime) {
+        this.userSupprime = userSupprime;
+    }
+
 }

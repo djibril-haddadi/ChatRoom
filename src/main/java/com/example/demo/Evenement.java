@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 public class Evenement {
     @Id
     @GeneratedValue
-    protected int id;
+    protected long id;
     protected Date date;
 
     @ManyToOne
@@ -23,10 +23,10 @@ public class Evenement {
 
     //Getter et setter
 
-    public int getId() {
+    public long getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

@@ -48,7 +48,7 @@ public class Message {
         this.sender = sender;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
     public void setId(Long id) {

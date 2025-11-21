@@ -16,7 +16,6 @@ public class Invitation extends Evenement{
     @JoinColumn(name = "invited_email")
     private User invited;
 
-
     public Invitation(){}
 
     Invitation(long id,Etat newEtat, User newUserInvite, Date newDate){

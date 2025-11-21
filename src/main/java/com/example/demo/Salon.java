@@ -19,12 +19,14 @@ public class Salon {
     @ManyToMany(mappedBy = "salons", cascade = CascadeType.ALL)
     private List<User> userList;
 
+
     @ManyToOne
     @JoinColumn(name = "creator_email")
     private User creator;
 
-    Salon(){}
-    Salon(String newTitre){
+    public Salon(){}
+
+    public Salon(String newTitre){
         this.titre = newTitre;
     }
 

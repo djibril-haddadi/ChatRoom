@@ -20,7 +20,9 @@ public class Message {
     @JoinColumn(name = "sender_email")
     private User sender;
 
-    Message(String newContenu, Date newDate){
+    public Message(){}
+
+    public Message(String newContenu, Date newDate){
         this.contenu = newContenu;
         this.date = newDate;
     }

@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import Repositories.InvitationRepository;
+import Service.InvitationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +11,7 @@ import java.util.List;
 @RestController
 public class InvitationController {
     @Autowired
-    private InvitationRepository InvitationRepo;
+    private InvitationService invitationService;
 
     @GetMapping("/addInvitation")
     public String addInvitation() {
@@ -22,38 +23,26 @@ public class InvitationController {
             @RequestParam("etat") Etat etat,
             @RequestParam("userInvite") User userInvite,
             @RequestParam("date") Date date){
-        Invitation u1 = new Invitation(etat, userInvite, date);
-        InvitationRepo.save(u1);
-        return ResponseEntity.ok("Invitation created successfully.");
+        return ResponseEntity.ok(invitationService.addInvitation(etat, userInvite, date));
     }
 
     @GetMapping("/getInvitations")
     public ResponseEntity<List<Invitation>> getInvitation(){
-        List<Invitation> invitationList = InvitationRepo.findAll();
-
-        return ResponseEntity.ok(invitationList);
+        return ResponseEntity.ok(invitationService.getInvitation());
     }
 
     @GetMapping("/getInvitation")
     public ResponseEntity<Invitation> getInvitation(@RequestParam("id") long id){
-        Invitation invitation = InvitationRepo.findById(id);
-
-        return ResponseEntity.ok(invitation);
+        return ResponseEntity.ok(invitationService.getInvitation(id));
     }
 
     @PutMapping("/modifyInvitation")
     public ResponseEntity<String> modifyInvitation(@RequestBody Invitation invitationBody){
-        Invitation invitation = InvitationRepo.findById(invitationBody.getId());
-        if (invitation == null){return ResponseEntity.ok("Invitation does not exist, could not be modified");}
-        InvitationRepo.save(invitationBody);
-        return ResponseEntity.ok("Invitation modified successfully");
+        return ResponseEntity.ok(invitationService.modifyInvitation(invitationBody));
     }
 
     @DeleteMapping("/deleteInvitation")
     public ResponseEntity<String> deleteInvitation(@RequestParam("id") long id){
-        Invitation invitation = InvitationRepo.findById(id);
-        if (invitation == null){return ResponseEntity.ok("Invitation does not exist, could not be deleted");}
-        InvitationRepo.delete(invitation);
-        return ResponseEntity.ok("invitation deleted successfully");
+        return ResponseEntity.ok(invitationService.deleteInvitation(id));
     }
 }

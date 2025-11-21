@@ -3,6 +3,7 @@ package com.example.demo;
 import java.util.Date;
 import jakarta.persistence.*;
 
+
 @Entity
 @Table(name = "evenement")
 public class Evenement {
@@ -17,12 +18,8 @@ public class Evenement {
 
     public Evenement(){}
 
-    Evenement(long id, Date date){
-        this.id = id;
-        this.date = date;
-    }
 
-    Evenement(Date newDate){
+    public Evenement(Date newDate){
         this.date = newDate;
     }
 

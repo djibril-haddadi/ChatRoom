@@ -35,7 +35,7 @@ public class User {
     private List<Suppression> suppressions;
 
 
-    User(String newEmail, String newNom, String newPrenom, String newPseudo, String newMdp){
+    public User(String newEmail, String newNom, String newPrenom, String newPseudo, String newMdp){
         this.email = newEmail;
         this.nom = newNom;
         this.prenom = newPrenom;

@@ -1,4 +1,48 @@
 package Service;
 
+import Repositories.SalonRepository;
+import com.example.demo.Salon;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 public class SalonService {
+    private SalonRepository salonRepo;
+
+    @GetMapping("/addSalon")
+    public String addSalon() {
+        return "addSalon";
+    }
+
+    public String addSalon(@RequestParam("titre") String titre){
+        Salon s1 = new Salon(titre);
+        salonRepo.save(s1);
+        return ("Salon added succesfully");
+    }
+
+    public List<Salon> getSalon(){
+        List<Salon> salonList = salonRepo.findAll();
+
+        return (salonList);
+    }
+
+    public Salon getSalon(@RequestParam("titre") String titre){
+        Salon salon = salonRepo.findByTitre(titre);
+
+        return (salon);
+    }
+
+    public String modifySalon(@RequestBody Salon salonBody){
+        Salon salon = salonRepo.findByTitre(salonBody.getTitre());
+        if (salon == null){return ("Salon does not exist, could not be modified");}
+        salonRepo.save(salonBody);
+        return ("Salon modified successfully");
+    }
+
+    public String deleteSalon(@RequestParam("titre") String titre){
+        Salon salon = salonRepo.findByTitre(titre);
+        if (salon == null){return ("Salon does not exist, could not be deleted");}
+        salonRepo.delete(salon);
+        return ("salon deleted successfully");
+    }
 }

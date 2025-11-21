@@ -28,31 +28,21 @@ public class MessageController {
 
     @GetMapping("/getMessages")
     public ResponseEntity<List<Message>> getMessage(){
-        List<Message> messageList = messageService.getMessage();
-
-        return ResponseEntity.ok(messageList);
+        return ResponseEntity.ok(messageService.getMessage());
     }
 
     @GetMapping("/getMessage")
     public ResponseEntity<Message> getMessage(@RequestParam("id") long id){
-        Message message = messageService.getMessage(id);
-
-        return ResponseEntity.ok(message);
+        return ResponseEntity.ok(messageService.getMessage(id));
     }
 
     @PutMapping("/modifyMessage")
     public ResponseEntity<String> modifyMessage(@RequestBody Message messageBody){
-        Message message = messageService.getMessage(messageBody.getId());
-        if (message == null){return ResponseEntity.ok("Message does not exist, could not be modified");}
-        messageService.modifyMessage(messageBody);
-        return ResponseEntity.ok("Message modified successfully");
+        return ResponseEntity.ok(messageService.modifyMessage(messageBody));
     }
 
     @DeleteMapping("/deleteMessage")
     public ResponseEntity<String> deleteMessage(@RequestParam("id") long id){
-        Message message = messageService.getMessage(id);
-        if (message == null){return ResponseEntity.ok("Message does not exist, could not be deleted");}
-        messageService.deleteMessage(message.getId());
-        return ResponseEntity.ok("message deleted successfully");
+        return ResponseEntity.ok(messageService.deleteMessage(id));
     }
 }

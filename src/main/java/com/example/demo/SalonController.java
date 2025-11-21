@@ -1,6 +1,6 @@
 package com.example.demo;
 
-import Repositories.SalonRepository;
+import Service.SalonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 public class SalonController {
     @Autowired
-    private SalonRepository salonRepo;
+    private SalonService salonService;
 
     @GetMapping("/addSalon")
     public String addSalon() {
@@ -19,9 +19,27 @@ public class SalonController {
 
     @PostMapping("/addSalon")
     public ResponseEntity<String> addSalon(@RequestParam("titre") String titre){
-        Salon s1 = new Salon(titre);
-        salonRepo.save(s1);
-        return ResponseEntity.ok("Salon added succesfully");
+        return ResponseEntity.ok(salonService.addSalon(titre));
+    }
+
+    @GetMapping("/getSalons")
+    public ResponseEntity<List<Salon>> getSalon(){
+        return ResponseEntity.ok(salonService.getSalon());
+    }
+
+    @GetMapping("/getSalon")
+    public ResponseEntity<Salon> getSalon(@RequestParam("titre") String titre){
+        return ResponseEntity.ok(salonService.getSalon(titre));
+    }
+
+    @PutMapping("/modifySalon")
+    public ResponseEntity<String> modifySalon(@RequestBody Salon salonBody){
+        return ResponseEntity.ok(salonService.modifySalon(salonBody));
+    }
+
+    @DeleteMapping("/deleteSalon")
+    public ResponseEntity<String> deleteSalon(@RequestParam("titre") String titre){
+        return ResponseEntity.ok(salonService.deleteSalon(titre));
     }
 
     @GetMapping("/getSalons")

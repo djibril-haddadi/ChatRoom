@@ -1,6 +1,6 @@
 package com.example.demo;
 
-import Repositories.SuppressionRepository;
+import Service.SuppressionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 public class SuppressionController {
     @Autowired
-    private SuppressionRepository suppressionRepo;
+    private SuppressionService suppressionServ;
 
     @GetMapping("/addSuppression")
     public String addSuppression() {
@@ -23,38 +23,26 @@ public class SuppressionController {
             @RequestParam("userSupprime") User newUserSupprime,
             @RequestParam("raison") String newRaison,
             @RequestParam("date") Date newDate) {
-        Suppression u1 = new Suppression(id, newUserSupprime, newRaison, newDate);
-        suppressionRepo.save(u1);
-        return ResponseEntity.ok("Suppression created successfully.");
+        return ResponseEntity.ok(suppressionServ.addSuppression(id, newUserSupprime, newRaison, newDate));
     }
 
     @GetMapping("/getSuppressions")
     public ResponseEntity<List<Suppression>> getSuppression(){
-        List<Suppression> suppressionList = suppressionRepo.findAll();
-
-        return ResponseEntity.ok(suppressionList);
+        return ResponseEntity.ok(suppressionServ.getSuppression());
     }
 
     @GetMapping("/getSuppression")
     public ResponseEntity<Suppression> getSuppression(@RequestParam("id") long id){
-        Suppression suppression = suppressionRepo.findById(id);
-
-        return ResponseEntity.ok(suppression);
+        return ResponseEntity.ok(suppressionServ.getSuppression(id));
     }
 
     @PutMapping("/modifySuppression")
     public ResponseEntity<String> modifySuppression(@RequestBody Suppression suppressionBody){
-        Suppression suppression = suppressionRepo.findById(suppressionBody.getId());
-        if (suppression == null){return ResponseEntity.ok("Suppression does not exist, could not be modified");}
-        suppressionRepo.save(suppressionBody);
-        return ResponseEntity.ok("Suppression modified successfully");
+        return ResponseEntity.ok(suppressionServ.modifySuppression(suppressionBody));
     }
 
     @DeleteMapping("/deleteSuppression")
     public ResponseEntity<String> deleteSuppression(@RequestParam("id") long id){
-        Suppression suppression = suppressionRepo.findById(id);
-        if (suppression == null){return ResponseEntity.ok("Suppression does not exist, could not be deleted");}
-        suppressionRepo.delete(suppression);
-        return ResponseEntity.ok("suppression deleted successfully");
+        return ResponseEntity.ok(suppressionServ.deleteSuppression(id));
     }
 }

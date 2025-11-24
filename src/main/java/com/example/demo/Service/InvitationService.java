@@ -1,4 +1,4 @@
-package Service;
+package com.example.demo.Service;
 
 import Repositories.InvitationRepository;
 import com.example.demo.*;

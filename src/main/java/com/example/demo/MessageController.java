@@ -1,7 +1,6 @@
 package com.example.demo;
 
-import Service.InvitationService;
-import Service.MessageService;
+import com.example.demo.Service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,12 +1,16 @@
-package Service;
+package com.example.demo.Service;
 
 import Repositories.SalonRepository;
 import com.example.demo.Salon;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Service
 public class SalonService {
+    @Autowired
     private SalonRepository salonRepo;
 
     @GetMapping("/addSalon")

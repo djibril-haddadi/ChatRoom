@@ -1,7 +1,6 @@
 package com.example.demo;
 
-import Repositories.EvenementRepository;
-import Service.EvenementService;
+import com.example.demo.Service.EvenementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,14 +1,18 @@
-package Service;
+package com.example.demo.Service;
 import com.example.demo.*;
 import Repositories.SuppressionRepository;
 import com.example.demo.Suppression;
 import com.example.demo.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
 
+@Service
 public class SuppressionService {
+    @Autowired
     private SuppressionRepository suppressionRepo;
 
     public String addSuppression() {

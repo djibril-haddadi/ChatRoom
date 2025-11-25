@@ -1,6 +1,7 @@
-package com.example.demo;
+package com.example.demo.Controller;
 
-import Repositories.UserRepository;
+import com.example.demo.Service.UserService;
+import com.example.demo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +11,7 @@ import java.util.List;
 @RestController
 public class UserController {
     @Autowired
-    private UserRepository userRepo;
+    private UserService userServ;
 
     @GetMapping("/addUser")
     public String addUser() {
@@ -25,38 +26,34 @@ public class UserController {
             @RequestParam("email") String email,
             @RequestParam("mdp") String mdp) {
         User u1 = new User(email, nom, prenom, pseudo, mdp);
-        userRepo.save(u1);
+        userServ.createUser(u1);
         return ResponseEntity.ok("User created successfully.");
     }
 
     @GetMapping("/getUsers")
     public ResponseEntity<List<User>> getUser(){
-        List<User> userList = userRepo.findAll();
-
-        return ResponseEntity.ok(userList);
+        return ResponseEntity.ok(userServ.getAllUsers());
     }
 
     @GetMapping("/getUser")
     public ResponseEntity<User> getUser(@RequestParam("email") String email){
-        User user = userRepo.findByEmail(email);
-
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(userServ.getUser(email));
     }
 
     @PutMapping("/modifyUser")
     public ResponseEntity<String> modifyUser(@RequestBody User userBody){
-        User user = userRepo.findByEmail(userBody.getEmail());
-        if (user == null){return ResponseEntity.ok("User does not exist, could not be modified");}
-        userRepo.save(userBody);
-        return ResponseEntity.ok("User modified successfully");
+        if (userServ.updateUser(userBody)){
+            return ResponseEntity.ok("User modified successfully");
+        }
+        return ResponseEntity.ok("User could not be modified; it was not found");
     }
 
     @DeleteMapping("/deleteUser")
     public ResponseEntity<String> deleteUser(@RequestParam("email") String email){
-        User user = userRepo.findByEmail(email);
-        if (user == null){return ResponseEntity.ok("User does not exist, could not be deleted");}
-        userRepo.delete(user);
-        return ResponseEntity.ok("user deleted successfully");
+        if (userServ.deleteUser(email)){
+            return ResponseEntity.ok("User deleted successfully");
+        }
+        return ResponseEntity.ok("User could not be deleted; it was not found");
     }
 
 }

@@ -1,5 +1,6 @@
-package com.example.demo;
+package com.example.demo.Controller;
 
+import com.example.demo.Evenement;
 import com.example.demo.Service.EvenementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,6 @@ public class EvenementController {
 
     @DeleteMapping("/deleteEvenement")
     public ResponseEntity<String> deleteEvenement(@RequestParam("id") long id){
-       return ResponseEntity.ok(evenementService.deleteEvenement(id));
+        return ResponseEntity.ok(evenementService.deleteEvenement(id));
     }
 }

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat WebSocket</title>
+</head>
+<body>
+
+<h2>Chat WebSocket</h2>
+
+<input type="text" id="msg" placeholder="Écris un message...">
+<button onclick="sendMessage()">Envoyer</button>
+
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+
+<script>
+    // Connexion WebSocket
+    let socket = new SockJS('/ws');
+    let stompClient = Stomp.over(socket);
+
+    // Variables du chat
+    let room = "general";
+    let login = "Ahmed";
+
+    // Connexion au broker Spring
+    stompClient.connect({}, () => {
+
+        console.log("Connecté au WebSocket !");
+
+        // On s’abonne au salon
+        stompClient.subscribe('/topic/' + room, msg => {
+            console.log("Message reçu :", msg.body);
+            alert("Message reçu : " + msg.body); // pour que tu le vois directement
+        });
+    });
+
+    // Envoi d’un message au serveur
+    function sendMessage() {
+        stompClient.send(
+            "/app/chat.send",
+            {},
+            JSON.stringify({
+                room: room,
+                login: login,
+                content: document.getElementById("msg").value
+            })
+        );
+    }
+</script>
+
+</body>
+</html>

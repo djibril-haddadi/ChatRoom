@@ -1,7 +1,6 @@
 ### TODO
-- [ ] creer entites
-- [ ] creer repositories
-- [ ] avoir liste de requetes
-- [ ] terminer controleurs
-- [ ] terminer interfaces
-- [ ] etc (suivre le sujet)
+
+#### Seance websocket
+- [ ] Chaque salon un topic dédié (/topic/room/{id} 
+- [ ] Les utilisateurs s’abonnent à un ou plusieurs topics 
+- [ ] Les messages envoyés à un topic ne sont reçus que par les abonnés

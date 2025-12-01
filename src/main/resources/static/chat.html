@@ -54,11 +54,6 @@
 
         const newRoom = document.getElementById("roomInput").value;
 
-        // Si on était déjà abonné à un autre salon, on se désabonne
-        if (subscription !== null) {
-            subscription.unsubscribe();
-        }
-
         // Abonnement au nouveau salon
         subscription = stompClient.subscribe('/topic/room/' + newRoom, msg => {
             console.log("Message reçu dans room", newRoom, ":", msg.body);

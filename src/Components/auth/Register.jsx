@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { createRoot } from 'react-dom/client';
 
 export default function Register(){
     const [name, setName] = useState("");

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class SalonController {
     @Autowired
@@ -24,6 +26,11 @@ public class SalonController {
     @GetMapping("/getSalon")
     public ResponseEntity<Salon> getSalon(@RequestParam("titre") String titre){
         return ResponseEntity.ok(salonService.getSalon(titre));
+    }
+
+    @GetMapping("/getSalons")
+    public ResponseEntity<List<Salon>> getSalons(){
+        return ResponseEntity.ok(salonService.getSalon());
     }
 
     @PutMapping("/modifySalon")

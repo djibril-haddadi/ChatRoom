@@ -18,10 +18,7 @@ public class InvitationService {
         return "addInvitation";
     }
 
-    public String addInvitation(
-            @RequestParam("etat") Etat etat,
-            @RequestParam("userInvite") User userInvite,
-            @RequestParam("date") Date date){
+    public String addInvitation(Etat etat, User userInvite, Date date){
         Invitation u1 = new Invitation(etat, userInvite, date);
         InvitationRepo.save(u1);
         return "Invitation created successfully.";
@@ -33,20 +30,20 @@ public class InvitationService {
         return invitationList;
     }
 
-    public Invitation getInvitation(@RequestParam("id") long id){
+    public Invitation getInvitation(long id){
         Invitation invitation = InvitationRepo.findById(id);
 
         return invitation;
     }
 
-    public String modifyInvitation(@RequestBody Invitation invitationBody){
+    public String modifyInvitation(Invitation invitationBody){
         Invitation invitation = InvitationRepo.findById(invitationBody.getId());
         if (invitation == null){return "Invitation does not exist, could not be modified";}
         InvitationRepo.save(invitationBody);
         return "Invitation modified successfully";
     }
 
-    public String deleteInvitation(@RequestParam("id") long id){
+    public String deleteInvitation(long id){
         Invitation invitation = InvitationRepo.findById(id);
         if (invitation == null){return "Invitation does not exist, could not be deleted";}
         InvitationRepo.delete(invitation);

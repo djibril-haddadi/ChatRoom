@@ -14,12 +14,12 @@ public class SuppressionController {
     @Autowired
     private SuppressionService suppressionServ;
 
-    @GetMapping("/addSuppression")
+    @GetMapping("/Suppression/add")
     public String addSuppression() {
         return "addSuppression";
     }
 
-    @PostMapping("/addSuppression")
+    @PostMapping("/Suppression/add")
     public ResponseEntity<String> addSuppression(
             @RequestParam("id") long id,
             @RequestParam("userSupprime") User newUserSupprime,
@@ -28,22 +28,22 @@ public class SuppressionController {
         return ResponseEntity.ok(suppressionServ.addSuppression(id, newUserSupprime, newRaison, newDate));
     }
 
-    @GetMapping("/getSuppressions")
+    @GetMapping("/Suppression/get")
     public ResponseEntity<List<Suppression>> getSuppression(){
         return ResponseEntity.ok(suppressionServ.getSuppression());
     }
 
-    @GetMapping("/getSuppression")
+    @GetMapping("/Suppression/getById")
     public ResponseEntity<Suppression> getSuppression(@RequestParam("id") long id){
         return ResponseEntity.ok(suppressionServ.getSuppression(id));
     }
 
-    @PutMapping("/modifySuppression")
+    @PutMapping("/Suppression/modify")
     public ResponseEntity<String> modifySuppression(@RequestBody Suppression suppressionBody){
         return ResponseEntity.ok(suppressionServ.modifySuppression(suppressionBody));
     }
 
-    @DeleteMapping("/deleteSuppression")
+    @DeleteMapping("/Suppression/delete")
     public ResponseEntity<String> deleteSuppression(@RequestParam("id") long id){
         return ResponseEntity.ok(suppressionServ.deleteSuppression(id));
     }

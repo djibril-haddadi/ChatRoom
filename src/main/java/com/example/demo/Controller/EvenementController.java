@@ -13,32 +13,32 @@ public class EvenementController {
     @Autowired
     private EvenementService evenementService;
 
-    @GetMapping("/addEvenement")
+    @GetMapping("/Evenement/add")
     public String addEvenement() {
         return evenementService.addEvenement();
     }
 
-    @PostMapping("/addEvenement")
+    @PostMapping("/Evenement/add")
     public ResponseEntity<String> addEvenement(@RequestParam("date") Date date){
         return ResponseEntity.ok(evenementService.addEvenement(date));
     }
 
-    @GetMapping("/getEvenements")
+    @GetMapping("/Evenements/get")
     public ResponseEntity<List<Evenement>> getEvenements(){
         return ResponseEntity.ok(evenementService.getEvenements());
     }
 
-    @GetMapping("/getEvenement")
+    @GetMapping("/Evenement/getById")
     public ResponseEntity<Evenement> getEvenement(@RequestParam("id") long id){
         return ResponseEntity.ok(evenementService.getEvenement(id));
     }
 
-    @PutMapping("/modifyEvenement")
+    @PutMapping("/Evenement/modify")
     public ResponseEntity<String> modifyEvenement(@RequestBody Evenement evenementBody){
         return ResponseEntity.ok(evenementService.modifyEvenement(evenementBody));
     }
 
-    @DeleteMapping("/deleteEvenement")
+    @DeleteMapping("/Evenement/delete")
     public ResponseEntity<String> deleteEvenement(@RequestParam("id") long id){
         return ResponseEntity.ok(evenementService.deleteEvenement(id));
     }

@@ -15,12 +15,12 @@ public class InvitationController {
     @Autowired
     private InvitationService invitationService;
 
-    @GetMapping("/addInvitation")
+    @GetMapping("/Invitation/add")
     public String addInvitation() {
         return "addInvitation";
     }
 
-    @PostMapping("/addInvitation")
+    @PostMapping("/Invitation/add")
     public ResponseEntity<String> addInvitation(
             @RequestParam("etat") Etat etat,
             @RequestParam("userInvite") User userInvite,
@@ -28,22 +28,22 @@ public class InvitationController {
         return ResponseEntity.ok(invitationService.addInvitation(etat, userInvite, date));
     }
 
-    @GetMapping("/getInvitations")
+    @GetMapping("/Invitation/get")
     public ResponseEntity<List<Invitation>> getInvitation(){
         return ResponseEntity.ok(invitationService.getInvitation());
     }
 
-    @GetMapping("/getInvitation")
+    @GetMapping("/Invitation/getById")
     public ResponseEntity<Invitation> getInvitation(@RequestParam("id") long id){
         return ResponseEntity.ok(invitationService.getInvitation(id));
     }
 
-    @PutMapping("/modifyInvitation")
+    @PutMapping("/Invitation/modify")
     public ResponseEntity<String> modifyInvitation(@RequestBody Invitation invitationBody){
         return ResponseEntity.ok(invitationService.modifyInvitation(invitationBody));
     }
 
-    @DeleteMapping("/deleteInvitation")
+    @DeleteMapping("/Invitation/delete")
     public ResponseEntity<String> deleteInvitation(@RequestParam("id") long id){
         return ResponseEntity.ok(invitationService.deleteInvitation(id));
     }

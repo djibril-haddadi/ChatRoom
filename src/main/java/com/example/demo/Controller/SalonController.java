@@ -13,32 +13,32 @@ public class SalonController {
     @Autowired
     private SalonService salonService;
 
-    @GetMapping("/addSalon")
+    @GetMapping("/Salon/add")
     public String addSalon() {
         return "addSalon";
     }
 
-    @PostMapping("/addSalon")
+    @PostMapping("/Salon/add")
     public ResponseEntity<String> addSalon(@RequestParam("titre") String titre){
         return ResponseEntity.ok(salonService.addSalon(titre));
     }
 
-    @GetMapping("/getSalon")
+    @GetMapping("/Salon/getByTitre")
     public ResponseEntity<Salon> getSalon(@RequestParam("titre") String titre){
         return ResponseEntity.ok(salonService.getSalon(titre));
     }
 
-    @GetMapping("/getSalons")
+    @GetMapping("/Salon/get")
     public ResponseEntity<List<Salon>> getSalons(){
         return ResponseEntity.ok(salonService.getSalon());
     }
 
-    @PutMapping("/modifySalon")
+    @PutMapping("/Salon/modify")
     public ResponseEntity<String> modifySalon(@RequestBody Salon salonBody){
         return ResponseEntity.ok(salonService.modifySalon(salonBody));
     }
 
-    @DeleteMapping("/deleteSalon")
+    @DeleteMapping("/Salon/delete")
     public ResponseEntity<String> deleteSalon(@RequestParam("titre") String titre){
         return ResponseEntity.ok(salonService.deleteSalon(titre));
     }

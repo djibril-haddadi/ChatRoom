@@ -14,34 +14,34 @@ public class MessageController {
     @Autowired
     private MessageService messageService;
 
-    @GetMapping("/addMessage")
+    @GetMapping("/Message/add")
     public String addMessage() {
         return "addMessage";
     }
 
-    @PostMapping("/addMessage")
+    @PostMapping("/Message/add")
     public ResponseEntity<String> addMessage(
             @RequestParam("contenu") String contenu,
             @RequestParam("date") Date date) {
         return ResponseEntity.ok("Message added successfully.");
     }
 
-    @GetMapping("/getMessages")
+    @GetMapping("/Messages/get")
     public ResponseEntity<List<Message>> getMessage(){
         return ResponseEntity.ok(messageService.getMessage());
     }
 
-    @GetMapping("/getMessage")
+    @GetMapping("/Message/getById")
     public ResponseEntity<Message> getMessage(@RequestParam("id") long id){
         return ResponseEntity.ok(messageService.getMessage(id));
     }
 
-    @PutMapping("/modifyMessage")
+    @PutMapping("/Message/modify")
     public ResponseEntity<String> modifyMessage(@RequestBody Message messageBody){
         return ResponseEntity.ok(messageService.modifyMessage(messageBody));
     }
 
-    @DeleteMapping("/deleteMessage")
+    @DeleteMapping("/Message/delete")
     public ResponseEntity<String> deleteMessage(@RequestParam("id") long id){
         return ResponseEntity.ok(messageService.deleteMessage(id));
     }

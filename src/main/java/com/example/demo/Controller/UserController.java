@@ -13,12 +13,12 @@ public class UserController {
     @Autowired
     private UserService userServ;
 
-    @GetMapping("/addUser")
+    @GetMapping("/User/add")
     public String addUser() {
         return "addUser";
     }
 
-    @PostMapping("/addUser")
+    @PostMapping("/User/add")
     public ResponseEntity<String> addUser(
             @RequestParam("nom") String nom,
             @RequestParam("prenom") String prenom,
@@ -30,17 +30,17 @@ public class UserController {
         return ResponseEntity.ok("User created successfully.");
     }
 
-    @GetMapping("/getUsers")
+    @GetMapping("/User/get")
     public ResponseEntity<List<User>> getUser(){
         return ResponseEntity.ok(userServ.getAllUsers());
     }
 
-    @GetMapping("/getUser")
+    @GetMapping("/User/getByEmail")
     public ResponseEntity<User> getUser(@RequestParam("email") String email){
         return ResponseEntity.ok(userServ.getUser(email));
     }
 
-    @PutMapping("/modifyUser")
+    @PutMapping("/User/modify")
     public ResponseEntity<String> modifyUser(@RequestBody User userBody){
         if (userServ.updateUser(userBody)){
             return ResponseEntity.ok("User modified successfully");
@@ -48,7 +48,7 @@ public class UserController {
         return ResponseEntity.ok("User could not be modified; it was not found");
     }
 
-    @DeleteMapping("/deleteUser")
+    @DeleteMapping("/User/delete")
     public ResponseEntity<String> deleteUser(@RequestParam("email") String email){
         if (userServ.deleteUser(email)){
             return ResponseEntity.ok("User deleted successfully");

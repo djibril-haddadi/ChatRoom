@@ -1,7 +1,9 @@
 package com.example.demo.Service;
 
+import Repositories.SalonRepository;
 import com.example.demo.*;
 import Repositories.MessageRepository;
+import com.example.demo.DTO.MessageDTO;
 import com.example.demo.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,5 +53,11 @@ public class MessageService {
         if (message == null){return ("Message does not exist, could not be deleted");}
         messageRepo.delete(message);
         return ("message deleted successfully");
+    }
+
+    public List<MessageDTO> getMessagesBySalonTitre(String titre) {
+        List<Message> messages = messageRepo.findBySalon_TitreOrderByDateAsc(titre);
+
+        return messages.stream().map(MessageDTO::new).toList();
     }
 }

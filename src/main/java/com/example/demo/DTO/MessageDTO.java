@@ -1,5 +1,6 @@
-package DTO;
+package com.example.demo.DTO;
 
+import com.example.demo.Message;
 import com.example.demo.Salon;
 import com.example.demo.User;
 
@@ -12,6 +13,14 @@ public class MessageDTO {
     private Date date;
     private Salon salon;
     private User sender;
+
+    public MessageDTO(Message message) {
+        this.id = message.getId();
+        this.contenu = message.getContenu();
+        this.date = message.getDate();
+        this.salon = message.getSalon();
+        this.sender = message.getSender();
+    }
 
     //Getter et setter
 

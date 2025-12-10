@@ -18,7 +18,7 @@ public class SalonService {
         return "addSalon";
     }
 
-    public String addSalon(@RequestParam("titre") String titre){
+    public String addSalon(String titre){
         Salon s1 = new Salon(titre);
         salonRepo.save(s1);
         return ("Salon added succesfully");
@@ -30,20 +30,20 @@ public class SalonService {
         return (salonList);
     }
 
-    public Salon getSalon(@RequestParam("titre") String titre){
+    public Salon getSalon(String titre){
         Salon salon = salonRepo.findByTitre(titre);
 
         return (salon);
     }
 
-    public String modifySalon(@RequestBody Salon salonBody){
+    public String modifySalon(Salon salonBody){
         Salon salon = salonRepo.findByTitre(salonBody.getTitre());
         if (salon == null){return ("Salon does not exist, could not be modified");}
         salonRepo.save(salonBody);
         return ("Salon modified successfully");
     }
 
-    public String deleteSalon(@RequestParam("titre") String titre){
+    public String deleteSalon(String titre){
         Salon salon = salonRepo.findByTitre(titre);
         if (salon == null){return ("Salon does not exist, could not be deleted");}
         salonRepo.delete(salon);

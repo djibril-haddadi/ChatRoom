@@ -19,11 +19,7 @@ public class SuppressionService {
         return "addSuppression";
     }
 
-    public String addSuppression(
-            @RequestParam("id") long id,
-            @RequestParam("userSupprime") User newUserSupprime,
-            @RequestParam("raison") String newRaison,
-            @RequestParam("date") Date newDate) {
+    public String addSuppression(long id, User newUserSupprime, String newRaison, Date newDate) {
         Suppression u1 = new Suppression(newUserSupprime, newRaison, newDate);
         suppressionRepo.save(u1);
         return ("Suppression created successfully.");
@@ -35,20 +31,20 @@ public class SuppressionService {
         return (suppressionList);
     }
 
-    public Suppression getSuppression(@RequestParam("id") long id){
+    public Suppression getSuppression(long id){
         Suppression suppression = suppressionRepo.findById(id);
 
         return (suppression);
     }
 
-    public String modifySuppression(@RequestBody Suppression suppressionBody){
+    public String modifySuppression(Suppression suppressionBody){
         Suppression suppression = suppressionRepo.findById(suppressionBody.getId());
         if (suppression == null){return ("Suppression does not exist, could not be modified");}
         suppressionRepo.save(suppressionBody);
         return ("Suppression modified successfully");
     }
 
-    public String deleteSuppression(@RequestParam("id") long id){
+    public String deleteSuppression(long id){
         Suppression suppression = suppressionRepo.findById(id);
         if (suppression == null){return ("Suppression does not exist, could not be deleted");}
         suppressionRepo.delete(suppression);

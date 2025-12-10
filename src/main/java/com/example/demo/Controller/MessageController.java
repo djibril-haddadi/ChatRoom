@@ -1,5 +1,6 @@
 package com.example.demo.Controller;
 
+import com.example.demo.DTO.MessageDTO;
 import com.example.demo.Message;
 import com.example.demo.Service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,4 +46,11 @@ public class MessageController {
     public ResponseEntity<String> deleteMessage(@RequestParam("id") long id){
         return ResponseEntity.ok(messageService.deleteMessage(id));
     }
+
+    @GetMapping("/salons/{titre}/messages")
+    public ResponseEntity<List<MessageDTO>> getMessagesBySalon(@PathVariable String titre) {
+        List<MessageDTO> messages = messageService.getMessagesBySalonTitre(titre);
+        return ResponseEntity.ok(messages);
+    }
+
 }

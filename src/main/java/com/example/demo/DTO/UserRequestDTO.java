@@ -1,11 +1,10 @@
 package com.example.demo.DTO;
 
 import com.example.demo.*;
-import jakarta.persistence.*;
 
 import java.util.List;
 
-public class UserDTO {
+public class UserRequeteDTO {
 
     private String email;
     private String nom;

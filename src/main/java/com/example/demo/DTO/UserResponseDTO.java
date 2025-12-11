@@ -1,22 +1,27 @@
 package com.example.demo.DTO;
 
-import com.example.demo.*;
+import com.example.demo.Invitation;
+import com.example.demo.Message;
+import com.example.demo.Salon;
+import com.example.demo.Suppression;
 
 import java.util.List;
 
-public class UserRequestDTO {
+public class UserResponseDTO {
 
     private String email;
     private String nom;
     private String prenom;
     private String pseudo;
-    private String mdp;
-    private List<Message> messages;
-    private List<Salon> salons;
-    private List<Salon> salonsCree;
-    private List<Invitation> invitations;
-    private List<Suppression> suppressions;
 
+    public UserResponseDTO(){}
+
+    public UserResponseDTO(String email, String nom, String prenom, String pseudo, String mdp){
+        this.email = email;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.pseudo = pseudo;
+    }
     //Getter et setter
 
     public void setNom(String nom) {
@@ -40,14 +45,6 @@ public class UserRequestDTO {
         return pseudo;
     }
 
-    public void setMdp(String mdp) {
-        this.mdp = mdp;
-    }
-    public String getMdp() {
-        return mdp;
-    }
-
-
     public void setEmail(String email) {
         this.email = email;
     }
@@ -55,38 +52,4 @@ public class UserRequestDTO {
         return email;
     }
 
-    public List<Message> getMessages() {
-        return messages;
-    }
-    public void setMessages(List<Message> messages) {
-        this.messages = messages;
-    }
-
-    public void setSalons(List<Salon> salons) {
-        this.salons = salons;
-    }
-    public List<Salon> getSalons() {
-        return salons;
-    }
-
-    public void setSalonsCree(List<Salon> salonsCree) {
-        this.salonsCree = salonsCree;
-    }
-    public List<Salon> getSalonsCree() {
-        return salonsCree;
-    }
-
-    public void setInvitations(List<Invitation> invitations) {
-        this.invitations = invitations;
-    }
-    public List<Invitation> getInvitations() {
-        return invitations;
-    }
-
-    public void setSuppressions(List<Suppression> suppressions) {
-        this.suppressions = suppressions;
-    }
-    public List<Suppression> getSuppressions() {
-        return suppressions;
-    }
 }

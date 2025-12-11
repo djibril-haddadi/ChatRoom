@@ -2,7 +2,7 @@ package com.example.demo.DTO;
 
 import com.example.demo.*;
 
-public class InvitationDTO extends EvenementDTO{
+public class InvitationDTO{
     private Etat etat;
     private User userInvite;
     private User invited;

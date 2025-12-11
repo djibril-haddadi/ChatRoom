@@ -2,7 +2,7 @@ package com.example.demo.DTO;
 
 import com.example.demo.User;
 
-public class SuppressionDTO extends EvenementDTO{
+public class SuppressionDTO{
     private String raison;
     private User userSupprime;
 

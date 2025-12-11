@@ -1,5 +1,8 @@
 package com.example.demo.Config;
 
+import com.example.demo.DTO.SalonRequestDTO;
+import com.example.demo.DTO.SalonResponseDTO;
+import com.example.demo.Salon;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +24,11 @@ public class WebConfig implements WebMvcConfigurer {
     public ModelMapper modelMapper() {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setSkipNullEnabled(true);
+
+        //Salon
+        mapper.typeMap(Salon.class, SalonResponseDTO.class)
+                .addMapping(src -> src.getCreator().getPseudo(),
+                        SalonResponseDTO::setCreatorPseudo);
         return mapper;
     }
 }

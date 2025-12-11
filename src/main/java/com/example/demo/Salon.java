@@ -26,8 +26,9 @@ public class Salon {
 
     public Salon(){}
 
-    public Salon(String newTitre){
+    public Salon(String newTitre, User creator){
         this.titre = newTitre;
+        this.creator = creator;
     }
 
     //Getter et setter

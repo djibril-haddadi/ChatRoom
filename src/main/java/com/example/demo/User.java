@@ -34,6 +34,7 @@ public class User {
     @OneToMany(mappedBy = "userSupprime", cascade = CascadeType.ALL )
     private List<Suppression> suppressions;
 
+    public User() {}
 
     public User(String newEmail, String newNom, String newPrenom, String newPseudo, String newMdp){
         this.email = newEmail;

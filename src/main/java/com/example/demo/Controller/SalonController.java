@@ -1,8 +1,10 @@
 package com.example.demo.Controller;
 
+import com.example.demo.DTO.MessageResponseDTO;
 import com.example.demo.DTO.SalonRequestDTO;
 import com.example.demo.DTO.SalonResponseDTO;
 import com.example.demo.Service.SalonService;
+import com.example.demo.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,9 @@ import java.util.List;
 public class SalonController {
     @Autowired
     private SalonService salonService;
+
+    @Autowired
+    private UserService userServ;
 
     @PostMapping("/Salon/add")
     public ResponseEntity<String> addSalon(@RequestBody() SalonRequestDTO SalonDTO){
@@ -44,5 +49,15 @@ public class SalonController {
             return ResponseEntity.ok("Salon deleted sucessfully");
         }
         return ResponseEntity.status(404).body("Salon could not be found");
+    }
+
+    @GetMapping("/Salon/{email}/creator")
+    public ResponseEntity<List<SalonResponseDTO>> getSalonByCreator(@PathVariable String email){
+        return ResponseEntity.ok(userServ.getMySalon(email));
+    }
+
+    @GetMapping("/Salon/{email}/member")
+    public ResponseEntity<List<SalonResponseDTO>> getSalonByMember(@PathVariable String email){
+        return ResponseEntity.ok(userServ.getSalon(email));
     }
 }

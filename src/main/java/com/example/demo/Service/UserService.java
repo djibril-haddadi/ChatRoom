@@ -1,13 +1,16 @@
 package com.example.demo.Service;
 
 import Repositories.UserRepository;
+import com.example.demo.DTO.SalonResponseDTO;
 import com.example.demo.DTO.UserRequestDTO;
 import com.example.demo.DTO.UserResponseDTO;
+import com.example.demo.Salon;
 import com.example.demo.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -52,5 +55,21 @@ public class UserService{
         if (user == null){return false;}
         userRepo.delete(user);
         return true;
+    }
+
+    public List<SalonResponseDTO> getMySalon(String email){
+        User user = userRepo.findByEmail(email);
+        List<Salon> salons =  user.getSalonsCree();
+        return salons.stream()
+                .map(s -> modelMapper.map(s, SalonResponseDTO.class))
+                .toList();
+    }
+
+    public List<SalonResponseDTO> getSalon(String email){
+        User user = userRepo.findByEmail(email);
+        List<Salon> salons =  user.getSalons();
+        return salons.stream()
+                .map(s -> modelMapper.map(s, SalonResponseDTO.class))
+                .toList();
     }
 }

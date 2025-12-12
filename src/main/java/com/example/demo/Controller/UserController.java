@@ -33,6 +33,12 @@ public class UserController {
         return ResponseEntity.ok("User created successfully.");
     }
 
+    @PostMapping("/User/login")
+    public ResponseEntity<String> autentificationUser(@RequestBody UserRequestDTO userDto) {
+        userServ.autentification(userDto);
+        return ResponseEntity.ok("User created successfully.");
+    }
+
     @GetMapping("/User/get")
     public ResponseEntity<List<UserResponseDTO>> getUser(){
         return ResponseEntity.ok(userServ.getAllUsers());
@@ -62,5 +68,7 @@ public class UserController {
         }
         return ResponseEntity.status(404).body("User could not be deleted; it was not found");
     }
+
+
 
 }

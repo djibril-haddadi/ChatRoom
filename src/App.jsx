@@ -1,21 +1,19 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { AuthProvider } from './Components/utils/authContext.jsx'
-import Home from './Pages/Home.jsx'
-import Register from './Components/auth/Register.jsx'
-import SalonList from './Components/dashboard/SalonList.jsx'
-
+import { Routes, Route } from 'react-router-dom'
+import { AuthProvider } from './Components/Auth/AuthContext'
+import Home from './Pages/Home'
+import Login from './Pages/Login'
+import Register from './Pages/Register'
+import './styles/global.css'
 
 function App() {
     return (
-        <Router>
-            <AuthProvider>
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/register" element={<Register />}/>
-                    <Route path="/salonList" element={<SalonList />}/>
-                </Routes>
-            </AuthProvider>
-        </Router>
+        <AuthProvider>
+            <Routes>  {/* <-- Utilise Routes directement, sans Router */}
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+            </Routes>
+        </AuthProvider>
     )
 }
 

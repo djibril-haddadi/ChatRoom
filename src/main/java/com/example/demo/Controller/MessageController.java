@@ -49,7 +49,7 @@ public class MessageController {
         return ResponseEntity.ok(messageService.deleteMessage(id));
     }
 
-    @GetMapping("/salons/{titre}/messages")
+    @GetMapping("/Salon/{titre}/messages")
     public ResponseEntity<List<MessageResponseDTO>> getMessagesBySalon(@PathVariable String titre) {
         return ResponseEntity.ok(messageService.getMessagesBySalonTitre(titre));
     }

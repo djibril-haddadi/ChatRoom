@@ -4,39 +4,33 @@ import com.example.demo.DTO.UserRequestDTO;
 import com.example.demo.DTO.UserResponseDTO;
 import com.example.demo.Service.UserService;
 import com.example.demo.User;
+import jakarta.security.auth.message.AuthException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class UserController {
     @Autowired
     private UserService userServ;
 
-    @PostMapping("/User/addParams")
-    public ResponseEntity<String> addUserParams(
-            @RequestParam("nom") String nom,
-            @RequestParam("prenom") String prenom,
-            @RequestParam("pseudo") String pseudo,
-            @RequestParam("email") String email,
-            @RequestParam("mdp") String mdp) {
-        UserRequestDTO u1 = new UserRequestDTO(email, nom, prenom, pseudo, mdp);
-        userServ.createUser(u1);
-        return ResponseEntity.ok("User created successfully.");
-    }
-
     @PostMapping("/User/add")
     public ResponseEntity<String> addUser(@RequestBody UserRequestDTO userDto) {
-        userServ.createUser(userDto);
-        return ResponseEntity.ok("User created successfully.");
+        if (userServ.createUser(userDto)){
+            return ResponseEntity.ok("User created successfully.");
+        }
+        return ResponseEntity.badRequest().body("User already existed, cannot be created twice");
     }
 
     @PostMapping("/User/login")
-    public ResponseEntity<String> autentificationUser(@RequestBody UserRequestDTO userDto) {
-        userServ.autentification(userDto);
-        return ResponseEntity.ok("User created successfully.");
+    public ResponseEntity<Map<String, String>> autentificationUser(@RequestBody UserRequestDTO userDto) throws AuthException {
+        String token = userServ.authenticate(userDto);
+        return ResponseEntity.ok(Collections.singletonMap("token", token));
     }
 
     @GetMapping("/User/get")

@@ -6,7 +6,7 @@ import api from '../Components/utils/api.jsx'
 
 export default function Login() {
     const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [mdp, setPassword] = useState('')
     const [error, setError] = useState('')
     const { login } = useAuth()
     const navigate = useNavigate()
@@ -16,7 +16,7 @@ export default function Login() {
         setError('')
 
         try {
-            const response = await api.post('/auth/login', { email, password })
+            const response = await api.post('/login', { email, mdp })
             login(response.data.token, response.data.user)
             navigate('/')
         } catch (err) {
@@ -46,11 +46,11 @@ export default function Login() {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="password">Mot de passe</label>
+                    <label htmlFor="mdp">Mot de passe</label>
                     <input
-                        type="password"
-                        id="password"
-                        value={password}
+                        type="mdp"
+                        id="mdp"
+                        value={mdp}
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />

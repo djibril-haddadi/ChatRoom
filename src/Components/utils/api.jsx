@@ -3,7 +3,7 @@ import axios from 'axios'
 
 // Créer une instance d'axios avec la base URL de ton backend Spring
 const api = axios.create({
-    baseURL: 'http://localhost:8080/api', // URL de ton backend Spring
+    baseURL: 'http://localhost:2222/', // URL de ton backend Spring
 })
 
 // Ajouter le token JWT à chaque requête si l'utilisateur est connecté

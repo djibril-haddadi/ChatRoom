@@ -1,4 +1,3 @@
-// src/Pages/Register.jsx
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../Components/utils/api.jsx';
@@ -17,7 +16,7 @@ export default function Register() {
         setError('');
 
         try {
-            await api.post('/register', { nom, prenom, pseudo, email, mdp });
+            await api.post('/User/add', { nom, prenom, pseudo, email, mdp });
             navigate('/login');
         } catch (err) {
             setError('Erreur lors de l\'inscription. Vérifiez vos informations.');

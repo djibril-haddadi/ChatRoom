@@ -13,6 +13,7 @@ public class User {
     private String prenom;
     private String pseudo;
     private String mdp;
+    private boolean active;
 
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
     private List<Message> messages;
@@ -116,4 +117,11 @@ public class User {
         return suppressions;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

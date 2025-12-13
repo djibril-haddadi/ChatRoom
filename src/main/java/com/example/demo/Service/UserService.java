@@ -101,4 +101,12 @@ public class UserService{
                 .map(s -> modelMapper.map(s, SalonResponseDTO.class))
                 .toList();
     }
+
+    public boolean setActive(String email, boolean active){
+        User user = userRepo.findByEmail(email);
+        if (user == null) return false;
+        user.setActive(active);
+        userRepo.save(user);
+        return true;
+    }
 }

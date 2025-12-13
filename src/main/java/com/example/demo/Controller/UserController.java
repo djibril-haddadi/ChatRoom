@@ -73,4 +73,12 @@ public class UserController {
         return ResponseEntity.ok(salonServ.getSalonMembers(titre));
     }
 
+    @GetMapping("/User/{email}/active")
+    public ResponseEntity<String> setActiveUser(@PathVariable String email, @RequestParam boolean active) {
+        if (!userServ.setActive(email,active)) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok("User active updated");
+    }
+
+
+
 }

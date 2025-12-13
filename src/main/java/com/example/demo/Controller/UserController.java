@@ -90,5 +90,9 @@ public class UserController {
         return ResponseEntity.ok("User active updated");
     }
 
-
+    @PutMapping("/User/{email}/clearSalonActif")
+    public ResponseEntity<Void> clearActiveSalon(@PathVariable String email) {
+        return userServ.clearActiveSalon(email) ? ResponseEntity.noContent().build()
+                : ResponseEntity.notFound().build();
+    }
 }

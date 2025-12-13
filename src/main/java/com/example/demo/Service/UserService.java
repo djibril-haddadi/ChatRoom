@@ -113,10 +113,23 @@ public class UserService{
     public boolean setActiveSalon(String email, String titre){
         User user = userRepo.findByEmail(email);
         Salon salon = salonRepo.findByTitre(titre);
-        if (user == null || salon == null || !user.getSalons().contains(salon)) return false;
+        if (user == null ||
+                salon == null ||
+                user.getSalons().stream().noneMatch(s -> s.getTitre().equals(titre))){
+            return false;
+        }
 
         user.setSalonActif(salon);
         userRepo.save(user);
         return true;
     }
+
+    public boolean clearActiveSalon(String email) {
+        User user = userRepo.findByEmail(email);
+        if (user == null) return false;
+        user.setSalonActif(null);
+        userRepo.save(user);
+        return true;
+    }
+
 }

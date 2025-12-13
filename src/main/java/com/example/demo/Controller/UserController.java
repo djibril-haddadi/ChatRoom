@@ -1,7 +1,9 @@
 package com.example.demo.Controller;
 
+import com.example.demo.DTO.MessageResponseDTO;
 import com.example.demo.DTO.UserRequestDTO;
 import com.example.demo.DTO.UserResponseDTO;
+import com.example.demo.Service.SalonService;
 import com.example.demo.Service.UserService;
 import com.example.demo.User;
 import jakarta.security.auth.message.AuthException;
@@ -18,6 +20,9 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserService userServ;
+
+    @Autowired
+    private SalonService salonServ;
 
     @PostMapping("/User/add")
     public ResponseEntity<String> addUser(@RequestBody UserRequestDTO userDto) {
@@ -63,6 +68,9 @@ public class UserController {
         return ResponseEntity.status(404).body("User could not be deleted; it was not found");
     }
 
-
+    @GetMapping("/Salon/{titre}/user")
+    public ResponseEntity<List<UserResponseDTO>> getMembersBySalon(@PathVariable String titre) {
+        return ResponseEntity.ok(salonServ.getSalonMembers(titre));
+    }
 
 }

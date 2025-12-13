@@ -60,4 +60,5 @@ public class SalonController {
     public ResponseEntity<List<SalonResponseDTO>> getSalonByMember(@PathVariable String email){
         return ResponseEntity.ok(userServ.getSalon(email));
     }
+
 }

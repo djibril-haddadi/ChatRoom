@@ -26,6 +26,10 @@ public class User {
     )
     private List<Salon> salons;
 
+    @ManyToOne
+    @JoinColumn(name = "salon_actif_titre")
+    private Salon salonActif;
+
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private List<Salon> salonsCree;
 
@@ -123,5 +127,13 @@ public class User {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public Salon getSalonActif() {
+        return salonActif;
+    }
+
+    public void setSalonActif(Salon salonActif) {
+        this.salonActif = salonActif;
     }
 }

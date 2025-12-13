@@ -73,12 +73,22 @@ public class UserController {
         return ResponseEntity.ok(salonServ.getSalonMembers(titre));
     }
 
+    @GetMapping("/Salon/{titre}/userConnected")
+    public ResponseEntity<List<UserResponseDTO>> getMembersConnectedBySalon(@PathVariable String titre) {
+        return ResponseEntity.ok(salonServ.getSalonMembersConnected(titre));
+    }
+
     @GetMapping("/User/{email}/active")
     public ResponseEntity<String> setActiveUser(@PathVariable String email, @RequestParam boolean active) {
         if (!userServ.setActive(email,active)) return ResponseEntity.notFound().build();
         return ResponseEntity.ok("User active updated");
     }
 
+    @GetMapping("/User/{email}/setSalonActif")
+    public ResponseEntity<String> setActiveSalon(@PathVariable String email, @RequestParam String titre) {
+        if (!userServ.setActiveSalon(email,titre)) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok("User active updated");
+    }
 
 
 }

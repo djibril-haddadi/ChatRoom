@@ -16,7 +16,7 @@ export default function Login() {
         setError('')
 
         try {
-            const response = await api.post('/login', { email, mdp })
+            const response = await api.post('/User/login', { email, mdp })
             login(response.data.token, response.data.user)
             navigate('/')
         } catch (err) {

@@ -1,5 +1,6 @@
 package com.example.demo.Service;
 
+import Repositories.SalonRepository;
 import Repositories.UserRepository;
 import com.example.demo.DTO.SalonResponseDTO;
 import com.example.demo.DTO.UserRequestDTO;
@@ -19,7 +20,10 @@ import java.util.List;
 @Service
 public class UserService{
     @Autowired
-    private final UserRepository userRepo;
+    private UserRepository userRepo;
+
+    @Autowired
+    private SalonRepository salonRepo;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -29,10 +33,6 @@ public class UserService{
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    public UserService(UserRepository userRepository) {
-        this.userRepo = userRepository;
-    }
 
     public boolean createUser(UserRequestDTO userDto){
         // Vérifier si l'email existe déjà
@@ -101,4 +101,35 @@ public class UserService{
                 .map(s -> modelMapper.map(s, SalonResponseDTO.class))
                 .toList();
     }
+
+    public boolean setActive(String email, boolean active){
+        User user = userRepo.findByEmail(email);
+        if (user == null) return false;
+        user.setActive(active);
+        userRepo.save(user);
+        return true;
+    }
+
+    public boolean setActiveSalon(String email, String titre){
+        User user = userRepo.findByEmail(email);
+        Salon salon = salonRepo.findByTitre(titre);
+        if (user == null ||
+                salon == null ||
+                user.getSalons().stream().noneMatch(s -> s.getTitre().equals(titre))){
+            return false;
+        }
+
+        user.setSalonActif(salon);
+        userRepo.save(user);
+        return true;
+    }
+
+    public boolean clearActiveSalon(String email) {
+        User user = userRepo.findByEmail(email);
+        if (user == null) return false;
+        user.setSalonActif(null);
+        userRepo.save(user);
+        return true;
+    }
+
 }

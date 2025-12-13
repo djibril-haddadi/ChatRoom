@@ -4,8 +4,10 @@ import Repositories.SalonRepository;
 import Repositories.UserRepository;
 import com.example.demo.DTO.SalonRequestDTO;
 import com.example.demo.DTO.SalonResponseDTO;
+import com.example.demo.DTO.UserResponseDTO;
 import com.example.demo.Salon;
 import com.example.demo.User;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,5 +62,25 @@ public class SalonService {
         if (salon == null){return false;}
         salonRepo.delete(salon);
         return true;
+    }
+
+    public List<UserResponseDTO> getSalonMembers(String titre){
+        Salon salon = salonRepo.findByTitre(titre);
+        if (salon == null){
+            throw new EntityNotFoundException("Salon not found with titre: " + titre);
+        }
+        return salon.getUserList().stream()
+                .map(u -> modelMapper.map(u, UserResponseDTO.class))
+                .toList();
+    }
+
+    public List<UserResponseDTO> getSalonMembersConnected(String titre){
+        Salon salon = salonRepo.findByTitre(titre);
+        if (salon == null){
+            throw new EntityNotFoundException("Salon not found with titre: " + titre);
+        }
+        return salon.getUserConnected().stream()
+                .map(u -> modelMapper.map(u, UserResponseDTO.class))
+                .toList();
     }
 }

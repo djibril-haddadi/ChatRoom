@@ -13,6 +13,8 @@ public class UserResponseDTO {
     private String nom;
     private String prenom;
     private String pseudo;
+    private boolean active;
+    private String salonActif;
 
     public UserResponseDTO(){}
 
@@ -52,4 +54,19 @@ public class UserResponseDTO {
         return email;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public void setSalonActif(String salonActif) {
+        this.salonActif = salonActif;
+    }
+
+    public String getSalonActif() {
+        return salonActif;
+    }
 }

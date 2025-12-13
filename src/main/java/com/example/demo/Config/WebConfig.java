@@ -2,8 +2,10 @@ package com.example.demo.Config;
 
 import com.example.demo.DTO.MessageResponseDTO;
 import com.example.demo.DTO.SalonResponseDTO;
+import com.example.demo.DTO.UserResponseDTO;
 import com.example.demo.Message;
 import com.example.demo.Salon;
+import com.example.demo.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -66,6 +68,11 @@ public class WebConfig implements WebMvcConfigurer {
         mapper.typeMap(Message.class, MessageResponseDTO.class)
                 .addMapping(src -> src.getSender().getEmail(),
                         MessageResponseDTO::setSenderEmail);
+
+        mapper.typeMap(User.class, UserResponseDTO.class)
+                .addMapping(src -> src.getSalonActif() != null ? src.getSalonActif().getTitre() : null,
+                        UserResponseDTO::setSalonActif);
+
         return mapper;
     }
 }

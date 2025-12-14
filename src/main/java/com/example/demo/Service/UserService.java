@@ -42,6 +42,7 @@ public class UserService{
         }
         User newUser = modelMapper.map(userDto, User.class);
         newUser.setMdp(passwordEncoder.encode(newUser.getMdp()));
+        newUser.setActive(true);
         userRepo.save(newUser);
         return true;
     }

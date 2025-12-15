@@ -49,12 +49,6 @@ public class InvitationService {
         return modelMapper.map(InvitationRepo.findById(id), InvitationResponseDTO.class);
     }
 
-    public String modifyInvitation(Invitation invitationBody){
-        Invitation invitation = InvitationRepo.findById(invitationBody.getId());
-        if (invitation == null){return "Invitation does not exist, could not be modified";}
-        InvitationRepo.save(invitationBody);
-        return "Invitation modified successfully";
-    }
 
     public boolean modifyInvitation(InvitationRequestDTO invitationBody){
         Invitation invitation = InvitationRepo.findById(invitationBody.getId());

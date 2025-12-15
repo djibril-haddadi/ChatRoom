@@ -8,11 +8,13 @@ import com.example.demo.Service.UserService;
 import com.example.demo.User;
 import jakarta.security.auth.message.AuthException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -84,15 +86,69 @@ public class UserController {
         return ResponseEntity.ok("User active updated");
     }
 
-    @PutMapping("/User/{email}/setSalonActif")
+    /*@PutMapping("/User/{email}/setSalonActif")
     public ResponseEntity<String> setActiveSalon(@PathVariable String email, @RequestParam String titre) {
         if (!userServ.setActiveSalon(email,titre)) return ResponseEntity.notFound().build();
         return ResponseEntity.ok("User active updated");
+    }*/
+    @PutMapping("/User/{email}/setSalonActif")
+    public ResponseEntity<Map<String, String>> setActiveSalon(
+            @PathVariable String email,
+            @RequestBody Map<String, String> request) {
+
+        Map<String, String> response = new HashMap<>();
+
+        try {
+            String titre = request.get("titre");
+            if (titre == null || titre.trim().isEmpty()) {
+                response.put("error", "Le paramètre 'titre' est obligatoire");
+                return ResponseEntity.badRequest().body(response);
+            }
+
+            if (!userServ.setActiveSalon(email, titre)) {
+                response.put("error", "Impossible de mettre à jour le salon actif");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            }
+
+            response.put("message", "Salon actif mis à jour avec succès");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("error", "Erreur serveur: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
 
     @PutMapping("/User/{email}/clearSalonActif")
     public ResponseEntity<Void> clearActiveSalon(@PathVariable String email) {
         return userServ.clearActiveSalon(email) ? ResponseEntity.noContent().build()
                 : ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/User/{email}/acceptInvitation")
+    public ResponseEntity<Map<String, String>> acceptInvitation(
+            @PathVariable String email,
+            @RequestBody Map<String, String> request) {
+
+        Map<String, String> response = new HashMap<>();
+
+        try {
+            String salonTitre = request.get("salonTitre");
+            if (salonTitre == null || salonTitre.trim().isEmpty()) {
+                response.put("error", "Le titre du salon est obligatoire");
+                return ResponseEntity.badRequest().body(response);
+            }
+
+            boolean success = userServ.acceptInvitation(email, salonTitre);
+            if (!success) {
+                response.put("error", "Impossible d'accepter l'invitation");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            }
+
+            response.put("message", "Invitation acceptée avec succès");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("error", "Erreur: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
 }

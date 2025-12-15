@@ -3,6 +3,7 @@ package com.example.demo.DTO;
 import java.util.Date;
 
 public class EvenementResponseDTO {
+    private long id;
     private Date date;
     private String salonTitre;
 
@@ -20,5 +21,13 @@ public class EvenementResponseDTO {
 
     public Date getDate() {
         return date;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

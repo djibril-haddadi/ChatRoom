@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 @Table(name = "message")
 public class Message {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String contenu;
     private Date date;
@@ -50,7 +50,7 @@ public class Message {
         this.sender = sender;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
     public void setId(Long id) {

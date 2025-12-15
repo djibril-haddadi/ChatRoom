@@ -3,7 +3,7 @@ package com.example.demo.DTO;
 public class MessageRequestDTO {
 
     // id to enable modification of a specific message
-    private long id;
+    private Long id;
     private String contenu;
     private String salonTitre;
     private String senderEmail;
@@ -44,7 +44,7 @@ public class MessageRequestDTO {
         this.id = id;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 }

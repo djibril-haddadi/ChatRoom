@@ -27,7 +27,7 @@ public class User {
     private List<Salon> salons;
 
     @ManyToOne
-    @JoinColumn(name = "salon_actif_titre")
+    @JoinColumn(name = "salon_actif_titre", referencedColumnName = "titre")
     private Salon salonActif;
 
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)

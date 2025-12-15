@@ -8,6 +8,7 @@ import com.example.demo.DTO.UserResponseDTO;
 import com.example.demo.Salon;
 import com.example.demo.Security.JwtTokenProvider;
 import com.example.demo.User;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.security.auth.message.AuthException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -222,5 +223,14 @@ public class UserService{
             System.err.println("Erreur dans acceptInvitation: " + e.getMessage());
             return false;
         }
+    }
+    public List<UserResponseDTO> getSalonMembersConnected(String titre){
+        Salon salon = salonRepo.findByTitre(titre);
+        if (salon == null){
+            throw new EntityNotFoundException("Salon not found with titre: " + titre);
+        }
+        return salon.getUserConnected().stream()
+                .map(this::toDto)
+                .toList();
     }
 }

@@ -19,7 +19,7 @@ public class Salon {
     @ManyToMany(mappedBy = "salons", cascade = CascadeType.ALL)
     private List<User> userList;
 
-    @OneToMany(mappedBy = "salonActif", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "salonActif")
     private List<User> userConnected;
 
 

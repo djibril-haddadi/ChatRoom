@@ -1,6 +1,7 @@
 package com.example.demo.Controller;
 
 import com.example.demo.DTO.MessageResponseDTO;
+import com.example.demo.DTO.SalonResponseDTO;
 import com.example.demo.DTO.UserRequestDTO;
 import com.example.demo.DTO.UserResponseDTO;
 import com.example.demo.Service.SalonService;
@@ -77,7 +78,7 @@ public class UserController {
 
     @GetMapping("/Salon/{titre}/userConnected")
     public ResponseEntity<List<UserResponseDTO>> getMembersConnectedBySalon(@PathVariable String titre) {
-        return ResponseEntity.ok(salonServ.getSalonMembersConnected(titre));
+        return ResponseEntity.ok(userServ.getSalonMembersConnected(titre));
     }
 
     @PutMapping("/User/{email}/active")

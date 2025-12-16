@@ -8,6 +8,7 @@ import com.example.demo.DTO.UserResponseDTO;
 import com.example.demo.Salon;
 import com.example.demo.Security.JwtTokenProvider;
 import com.example.demo.User;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.security.auth.message.AuthException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,18 +61,55 @@ public class UserService{
         return jwtTokenProvider.generateToken(user.getEmail());
     }
 
-    public List<UserResponseDTO> getAllUsers(){
+    /*public List<UserResponseDTO> getAllUsers(){
         return userRepo.findAll().stream()
                 .map(u -> modelMapper.map(u, UserResponseDTO.class))
                 .toList();
+    }*/
+    public List<UserResponseDTO> getAllUsers(){
+        return userRepo.findAll().stream()
+                .map(this::toDto)
+                .toList();
     }
 
-    public UserResponseDTO getUser(String email){
+    /*public UserResponseDTO getUser(String email){
         User user = userRepo.findByEmail(email);
         if (user == null){return null;}
         return modelMapper.map(user, UserResponseDTO.class);
+    }*/
+    //------------------
+
+    public UserResponseDTO getUser(String email) {
+        try {
+            User user = userRepo.findById(email)
+                    .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé: " + email));
+
+            return toDto(user);
+        } catch (Exception e) {
+            System.err.println("Erreur dans UserService.getUser: " + e.getMessage());
+            throw e; // Relance l'exception pour que le contrôleur la capture
+        }
     }
 
+    private UserResponseDTO toDto(User user) {
+        UserResponseDTO dto = new UserResponseDTO();
+        dto.setEmail(user.getEmail());
+        dto.setNom(user.getNom());
+        dto.setPrenom(user.getPrenom());
+        dto.setPseudo(user.getPseudo());
+        dto.setActive(user.isActive());
+
+        // Gestion sécurisée de salonActif
+        if (user.getSalonActif() != null) {
+            dto.setSalonActif(user.getSalonActif().getTitre());
+        }
+
+        return dto;
+    }
+
+
+
+    //-----------------
     public boolean updateUser(UserRequestDTO modifiedUserDto){
         User user = userRepo.findByEmail(modifiedUserDto.getEmail());
         if (user == null){return false;}
@@ -111,7 +149,7 @@ public class UserService{
         return true;
     }
 
-    public boolean setActiveSalon(String email, String titre){
+    /*public boolean setActiveSalon(String email, String titre){
         User user = userRepo.findByEmail(email);
         Salon salon = salonRepo.findByTitre(titre);
         if (user == null ||
@@ -123,6 +161,29 @@ public class UserService{
         user.setSalonActif(salon);
         userRepo.save(user);
         return true;
+    }*/
+    public boolean setActiveSalon(String email, String titre) {
+        try {
+            // 1. Vérifier que l'utilisateur existe
+            User user = userRepo.findById(email)
+                    .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+
+            // 2. Vérifier que le salon existe
+            Salon salon = salonRepo.findByTitre(titre);
+            if (salon == null) {
+                throw new RuntimeException("Salon non trouvé");
+            }
+
+            // 3. Mettre à jour le salon actif de l'utilisateur
+            user.setSalonActif(salon);
+            userRepo.save(user);
+
+            return true;
+        } catch (Exception e) {
+            System.err.println("Erreur dans setActiveSalon: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public boolean clearActiveSalon(String email) {
@@ -133,4 +194,43 @@ public class UserService{
         return true;
     }
 
+    public boolean acceptInvitation(String email, String salonTitre) {
+        try {
+            // 1. Trouver l'utilisateur et le salon
+            User user = userRepo.findById(email)
+                    .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+
+            Salon salon = salonRepo.findByTitre(salonTitre);
+                    //.orElseThrow(() -> new RuntimeException("Salon non trouvé"));
+
+            // 2. Ajouter l'utilisateur au salon (relation bidirectionnelle)
+            if (!user.getSalons().contains(salon)) {
+                user.getSalons().add(salon);
+            }
+            if (!salon.getUserList().contains(user)) {
+                salon.getUserList().add(user);
+            }
+
+            // 3. Mettre à jour le salon actif
+            user.setSalonActif(salon);
+
+            // 4. Sauvegarder les modifications
+            userRepo.save(user);
+            salonRepo.save(salon);
+
+            return true;
+        } catch (Exception e) {
+            System.err.println("Erreur dans acceptInvitation: " + e.getMessage());
+            return false;
+        }
+    }
+    public List<UserResponseDTO> getSalonMembersConnected(String titre){
+        Salon salon = salonRepo.findByTitre(titre);
+        if (salon == null){
+            throw new EntityNotFoundException("Salon not found with titre: " + titre);
+        }
+        return salon.getUserConnected().stream()
+                .map(this::toDto)
+                .toList();
+    }
 }

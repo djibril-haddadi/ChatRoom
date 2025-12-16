@@ -74,13 +74,5 @@ public class SalonService {
                 .toList();
     }
 
-    public List<UserResponseDTO> getSalonMembersConnected(String titre){
-        Salon salon = salonRepo.findByTitre(titre);
-        if (salon == null){
-            throw new EntityNotFoundException("Salon not found with titre: " + titre);
-        }
-        return salon.getUserConnected().stream()
-                .map(u -> modelMapper.map(u, UserResponseDTO.class))
-                .toList();
-    }
+
 }

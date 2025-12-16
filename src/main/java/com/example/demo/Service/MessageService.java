@@ -37,11 +37,12 @@ public class MessageService {
             return false;
         }
 
-        Message message = modelMapper.map(MessageDTO, Message.class);
-        message.setSender(creator);
-        message.setSalon(salon);
-
-        messageRepo.save(message);
+        Message m = new Message();
+        m.setContenu(MessageDTO.getContenu());
+        m.setSender(creator);
+        m.setSalon(salon);
+        m.setDate(new Date());
+        messageRepo.save(m);
         return true;
     }
 
@@ -56,7 +57,8 @@ public class MessageService {
     }
 
     public boolean modifyMessage(MessageRequestDTO messageBody){
-        Message message = messageRepo.findById(messageBody.getId());
+        Message message = messageRepo.findById(messageBody.getId())
+                .orElseThrow(() -> new RuntimeException("Message not found: " + messageBody.getId()));
         if (message == null){return false;}
         modelMapper.map(messageBody, message);
         messageRepo.save(message);

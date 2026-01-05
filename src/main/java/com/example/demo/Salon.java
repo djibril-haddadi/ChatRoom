@@ -19,6 +19,9 @@ public class Salon {
     @ManyToMany(mappedBy = "salons", cascade = CascadeType.ALL)
     private List<User> userList;
 
+    @OneToMany(mappedBy = "salonActif")
+    private List<User> userConnected;
+
 
     @ManyToOne
     @JoinColumn(name = "creator_email")
@@ -26,8 +29,9 @@ public class Salon {
 
     public Salon(){}
 
-    public Salon(String newTitre){
+    public Salon(String newTitre, User creator){
         this.titre = newTitre;
+        this.creator = creator;
     }
 
     //Getter et setter
@@ -74,4 +78,11 @@ public class Salon {
         this.creator = creator;
     }
 
+    public List<User> getUserConnected() {
+        return userConnected;
+    }
+
+    public void setUserConnected(List<User> userConnected) {
+        this.userConnected = userConnected;
+    }
 }

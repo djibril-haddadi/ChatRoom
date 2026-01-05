@@ -1,57 +1,86 @@
 package com.example.demo.Service;
-import com.example.demo.*;
+
+import Repositories.SalonRepository;
 import Repositories.SuppressionRepository;
+import Repositories.UserRepository;
+import com.example.demo.DTO.SuppressionRequestDTO;
+import com.example.demo.DTO.SuppressionResponseDTO;
+import com.example.demo.Salon;
 import com.example.demo.Suppression;
 import com.example.demo.User;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
 
 @Service
 public class SuppressionService {
+
     @Autowired
     private SuppressionRepository suppressionRepo;
 
-    public String addSuppression() {
-        return "addSuppression";
+    @Autowired
+    private SalonRepository salonRepo;
+
+    @Autowired
+    private UserRepository userRepo;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    public boolean addSuppression(SuppressionRequestDTO suppressionDTO) {
+        Salon salon = salonRepo.findByTitre(suppressionDTO.getSalonTitre());
+        if (salon == null) {
+            return false;
+        }
+
+        User userSupprime = userRepo.findByEmail(suppressionDTO.getUserSupprimeEmail());
+        if (userSupprime == null) {
+            return false;
+        }
+
+        Suppression suppression = modelMapper.map(suppressionDTO, Suppression.class);
+        suppression.setSalon(salon);
+        suppression.setUserSupprime(userSupprime);
+        suppression.setDate(new Date());
+
+        suppressionRepo.save(suppression);
+        return true;
     }
 
-    public String addSuppression(
-            @RequestParam("id") long id,
-            @RequestParam("userSupprime") User newUserSupprime,
-            @RequestParam("raison") String newRaison,
-            @RequestParam("date") Date newDate) {
-        Suppression u1 = new Suppression(newUserSupprime, newRaison, newDate);
-        suppressionRepo.save(u1);
-        return ("Suppression created successfully.");
+    public List<SuppressionResponseDTO> getSuppression() {
+        return suppressionRepo.findAll().stream()
+                .map(s -> modelMapper.map(s, SuppressionResponseDTO.class))
+                .toList();
     }
 
-    public List<Suppression> getSuppression(){
-        List<Suppression> suppressionList = suppressionRepo.findAll();
-
-        return (suppressionList);
-    }
-
-    public Suppression getSuppression(@RequestParam("id") long id){
+    public SuppressionResponseDTO getSuppression(long id) {
         Suppression suppression = suppressionRepo.findById(id);
-
-        return (suppression);
+        if (suppression == null) {
+            return null;
+        }
+        return modelMapper.map(suppression, SuppressionResponseDTO.class);
     }
 
-    public String modifySuppression(@RequestBody Suppression suppressionBody){
+    public boolean modifySuppression(SuppressionRequestDTO suppressionBody) {
         Suppression suppression = suppressionRepo.findById(suppressionBody.getId());
-        if (suppression == null){return ("Suppression does not exist, could not be modified");}
-        suppressionRepo.save(suppressionBody);
-        return ("Suppression modified successfully");
+        if (suppression == null) {
+            return false;
+        }
+        modelMapper.map(suppressionBody, suppression);
+
+        suppressionRepo.save(suppression);
+        return true;
     }
 
-    public String deleteSuppression(@RequestParam("id") long id){
+    public boolean deleteSuppression(long id) {
         Suppression suppression = suppressionRepo.findById(id);
-        if (suppression == null){return ("Suppression does not exist, could not be deleted");}
+        if (suppression == null) {
+            return false;
+        }
         suppressionRepo.delete(suppression);
-        return ("suppression deleted successfully");
+        return true;
     }
 }

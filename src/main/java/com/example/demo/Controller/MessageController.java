@@ -1,12 +1,13 @@
 package com.example.demo.Controller;
 
-import com.example.demo.Message;
+import com.example.demo.DTO.MessageRequestDTO;
+import com.example.demo.DTO.MessageResponseDTO;
 import com.example.demo.Service.MessageService;
+import com.example.demo.Service.SalonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -14,35 +15,43 @@ public class MessageController {
     @Autowired
     private MessageService messageService;
 
-    @GetMapping("/addMessage")
-    public String addMessage() {
-        return "addMessage";
+    @Autowired
+    private SalonService salonService;
+
+    @PostMapping("/Message/add")
+    public ResponseEntity<String> addSalon(@RequestBody() MessageRequestDTO messageDTO){
+        if (messageService.addMessage(messageDTO)){
+            return ResponseEntity.ok("Message created successfully");
+        }
+        return ResponseEntity.internalServerError().body("Could not create Message");
     }
 
-    @PostMapping("/addMessage")
-    public ResponseEntity<String> addMessage(
-            @RequestParam("contenu") String contenu,
-            @RequestParam("date") Date date) {
-        return ResponseEntity.ok("Message added successfully.");
-    }
-
-    @GetMapping("/getMessages")
-    public ResponseEntity<List<Message>> getMessage(){
+    @GetMapping("/Message/get")
+    public ResponseEntity<List<MessageResponseDTO>> getMessage(){
         return ResponseEntity.ok(messageService.getMessage());
     }
 
-    @GetMapping("/getMessage")
-    public ResponseEntity<Message> getMessage(@RequestParam("id") long id){
+    @GetMapping("/Message/getById")
+    public ResponseEntity<MessageResponseDTO> getMessage(@RequestParam("id") long id){
         return ResponseEntity.ok(messageService.getMessage(id));
     }
 
-    @PutMapping("/modifyMessage")
-    public ResponseEntity<String> modifyMessage(@RequestBody Message messageBody){
-        return ResponseEntity.ok(messageService.modifyMessage(messageBody));
+    @PutMapping("/Message/modify")
+    public ResponseEntity<String> modifyMessage(@RequestBody MessageRequestDTO messageBody){
+        if (messageService.modifyMessage(messageBody)){
+            return ResponseEntity.ok("Message modified sucessfully");
+        }
+        return ResponseEntity.status(404).body("Message could not be found");
     }
 
-    @DeleteMapping("/deleteMessage")
+    @DeleteMapping("/Message/delete")
     public ResponseEntity<String> deleteMessage(@RequestParam("id") long id){
         return ResponseEntity.ok(messageService.deleteMessage(id));
     }
+
+    @GetMapping("/Salon/{titre}/messages")
+    public ResponseEntity<List<MessageResponseDTO>> getMessagesBySalon(@PathVariable String titre) {
+        return ResponseEntity.ok(messageService.getMessagesBySalonTitre(titre));
+    }
+
 }

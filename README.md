@@ -1,7 +1,8 @@
 ### TODO
-- [ ] creer entites
-- [ ] creer repositories
-- [ ] avoir liste de requetes
-- [ ] terminer controleurs
-- [ ] terminer interfaces
-- [ ] etc (suivre le sujet)
+
+#### Seance websocket
+- [ ] post login api (user mdp)
+
+
+https://dev.to/sadiul_hakim/spring-boot-rest-custom-jwt-security-4emh
+https://swagger.io/

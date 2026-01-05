@@ -1,50 +1,55 @@
 package com.example.demo.Controller;
 
-import com.example.demo.Etat;
-import com.example.demo.Invitation;
+import com.example.demo.DTO.InvitationRequestDTO;
+import com.example.demo.DTO.InvitationResponseDTO;
 import com.example.demo.Service.InvitationService;
-import com.example.demo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.Date;
+
 import java.util.List;
 
 @RestController
 public class InvitationController {
+
     @Autowired
     private InvitationService invitationService;
 
-    @GetMapping("/addInvitation")
-    public String addInvitation() {
-        return "addInvitation";
+    @PostMapping("/Invitation/add")
+    public ResponseEntity<String> addInvitation(@RequestBody InvitationRequestDTO invitationDTO) {
+        if (invitationService.addInvitation(invitationDTO)) {
+            return ResponseEntity.ok("Invitation created successfully");
+        }
+        return ResponseEntity.status(404).body("Salon not found, could not create invitation");
     }
 
-    @PostMapping("/addInvitation")
-    public ResponseEntity<String> addInvitation(
-            @RequestParam("etat") Etat etat,
-            @RequestParam("userInvite") User userInvite,
-            @RequestParam("date") Date date){
-        return ResponseEntity.ok(invitationService.addInvitation(etat, userInvite, date));
-    }
-
-    @GetMapping("/getInvitations")
-    public ResponseEntity<List<Invitation>> getInvitation(){
+    @GetMapping("/Invitation/get")
+    public ResponseEntity<List<InvitationResponseDTO>> getInvitation() {
         return ResponseEntity.ok(invitationService.getInvitation());
     }
 
-    @GetMapping("/getInvitation")
-    public ResponseEntity<Invitation> getInvitation(@RequestParam("id") long id){
-        return ResponseEntity.ok(invitationService.getInvitation(id));
+    @GetMapping("/Invitation/getById")
+    public ResponseEntity<InvitationResponseDTO> getInvitation(@RequestParam("id") long id) {
+        InvitationResponseDTO invitation = invitationService.getInvitation(id);
+        if (invitation == null) {
+            return ResponseEntity.status(404).build();
+        }
+        return ResponseEntity.ok(invitation);
     }
 
-    @PutMapping("/modifyInvitation")
-    public ResponseEntity<String> modifyInvitation(@RequestBody Invitation invitationBody){
-        return ResponseEntity.ok(invitationService.modifyInvitation(invitationBody));
+    @PutMapping("/Invitation/modify")
+    public ResponseEntity<String> modifyInvitation(@RequestBody InvitationRequestDTO invitationBody) {
+        if (invitationService.modifyInvitation(invitationBody)) {
+            return ResponseEntity.ok("Invitation modified successfully");
+        }
+        return ResponseEntity.status(404).body("Invitation could not be found");
     }
 
-    @DeleteMapping("/deleteInvitation")
-    public ResponseEntity<String> deleteInvitation(@RequestParam("id") long id){
-        return ResponseEntity.ok(invitationService.deleteInvitation(id));
+    @DeleteMapping("/Invitation/delete")
+    public ResponseEntity<String> deleteInvitation(@RequestParam("id") long id) {
+        if (invitationService.deleteInvitation(id)) {
+            return ResponseEntity.ok("Invitation deleted successfully");
+        }
+        return ResponseEntity.status(404).body("Invitation could not be found");
     }
 }

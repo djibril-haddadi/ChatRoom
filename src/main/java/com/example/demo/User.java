@@ -13,6 +13,7 @@ public class User {
     private String prenom;
     private String pseudo;
     private String mdp;
+    private boolean active;
 
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
     private List<Message> messages;
@@ -25,6 +26,10 @@ public class User {
     )
     private List<Salon> salons;
 
+    @ManyToOne
+    @JoinColumn(name = "salon_actif_titre", referencedColumnName = "titre")
+    private Salon salonActif;
+
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private List<Salon> salonsCree;
 
@@ -34,6 +39,7 @@ public class User {
     @OneToMany(mappedBy = "userSupprime", cascade = CascadeType.ALL )
     private List<Suppression> suppressions;
 
+    public User() {}
 
     public User(String newEmail, String newNom, String newPrenom, String newPseudo, String newMdp){
         this.email = newEmail;
@@ -115,4 +121,19 @@ public class User {
         return suppressions;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public Salon getSalonActif() {
+        return salonActif;
+    }
+
+    public void setSalonActif(Salon salonActif) {
+        this.salonActif = salonActif;
+    }
 }

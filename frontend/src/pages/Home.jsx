@@ -1,6 +1,6 @@
-// src/Pages/Home.jsx
+
 import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../Components/Auth/AuthContext'
+import { useAuth } from '../components/auth/AuthContext'
 
 export default function Home() {
     const { isAuthenticated, logout, user } = useAuth()
@@ -14,11 +14,12 @@ export default function Home() {
     return (
         <div className="home-container">
             <header className="home-header">
-                <h1>Bienvenue sur notre application de chat</h1>
+                <h1>Projet Chat</h1>
                 {isAuthenticated ? (
                     <div className="user-greeting">
                         <p>Bonjour, {user?.name || 'Utilisateur'} !</p>
                         <button onClick={handleLogout} className="logout-button">Déconnexion</button>
+                        <button onClick={() => navigate('/dashboard')} className="dashboard-button">Dashboard</button>
                     </div>
                 ) : (
                     <div className="auth-links">

@@ -1,27 +1,28 @@
-import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
-
-
 import { Routes, Route } from 'react-router-dom'
-import { AuthProvider } from './Components/Auth/AuthContext'
-import Home from './Pages/Home'
-import Login from './Pages/Login'
-import Register from './Pages/Register'
-import ChatRoom from './Pages/ChatRoom'
+import { AuthProvider } from './components/auth/AuthContext'
+import Home from './pages/Home'
+import Login from './pages/Login'
+import Register from './pages/Register'
+import ChatRoom from './pages/ChatRoom'
+import Dashboard from './pages/Dashboard'
+import Profile from './pages/Profile'
+import NotFound from './pages/NotFound'
 import './styles/global.css'
 
 function App() {
-    const [user, setUser] = useState(null);
-    return (
-        <AuthProvider>
-            <Routes>  {/* <-- Utilise Routes directement, sans Router */}
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/chat/:id" element={<ChatRoom /> } />
-            </Routes>
-        </AuthProvider>
-    )
+  return (
+    <AuthProvider>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/chat/:id" element={<ChatRoom />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </AuthProvider>
+  )
 }
 
 export default App

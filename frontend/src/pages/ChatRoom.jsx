@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import api from '../Components/utils/api.jsx';
+import api from '../services/api'
 
 const ChatRoom = () => {
     const { id } = useParams();

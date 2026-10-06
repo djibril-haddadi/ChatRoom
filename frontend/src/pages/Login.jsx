@@ -1,8 +1,8 @@
-// src/Pages/Login.jsx
+
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { useAuth } from '../Components/Auth/AuthContext'
-import api from '../Components/utils/api.jsx'
+import { useAuth } from '../components/auth/AuthContext'
+import api from '../services/api'
 
 export default function Login() {
     const [email, setEmail] = useState('')
@@ -17,10 +17,22 @@ export default function Login() {
 
         try {
             const response = await api.post('/User/login', { email, mdp })
-            login(response.data.token, response.data.user)
-            navigate('/')
+            const token = response.data.token
+
+            try {
+                // Récupérer les infos utilisateur pour alimenter le profil
+                const userResponse = await api.get('/User/getByEmail', {
+                    params: { email },
+                    headers: { Authorization: `Bearer ${token}` },
+                })
+
+                login(token, userResponse.data)
+                navigate('/dashboard')
+            } catch (fetchErr) {
+                setError( 'Impossible de charger le profil après connexion')
+            }
         } catch (err) {
-            setError('Email ou mot de passe incorrect')
+            setError( 'Email ou mot de passe incorrect')
         }
     }
 
@@ -48,7 +60,7 @@ export default function Login() {
                 <div className="form-group">
                     <label htmlFor="mdp">Mot de passe</label>
                     <input
-                        type="mdp"
+                        type="password"
                         id="mdp"
                         value={mdp}
                         onChange={(e) => setPassword(e.target.value)}

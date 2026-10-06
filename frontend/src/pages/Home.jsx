@@ -14,7 +14,7 @@ export default function Home() {
     return (
         <div className="home-container">
             <header className="home-header">
-                <h1>Projet Chat</h1>
+                <h1>ChatRooms</h1>
                 {isAuthenticated ? (
                     <div className="user-greeting">
                         <p>Bonjour, {user?.name || 'Utilisateur'} !</p>
@@ -31,8 +31,8 @@ export default function Home() {
 
             <main className="home-main">
                 <section className="home-section">
-                    <h2>Rejoignez nos salons de discussion</h2>
-                    <p>Connectez-vous pour accéder à nos salons et discuter avec la communauté.</p>
+                    <h2>Join discussion rooms</h2>
+                    <p>Sign in to create rooms, invite others, and chat with your team.</p>
                 </section>
             </main>
         </div>

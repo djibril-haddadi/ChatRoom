@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>projet-chat</artifactId>
+	<artifactId>chatrooms</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
-	<name>projet-chat</name>
-	<description>API Spring Boot — salons de discussion (UTC AI13)</description>
+	<name>chatrooms</name>
+	<description>ChatRooms — Spring Boot API for real-time discussion rooms</description>
 	<url/>
 	<licenses>
 		<license/>

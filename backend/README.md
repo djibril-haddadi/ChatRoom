@@ -1,26 +1,26 @@
-# Backend — Projet Chat
+# ChatRooms — Backend
 
-API **Spring Boot 3** pour une application de salons de discussion.
+**Spring Boot 3** API for real-time discussion rooms.
 
 ## Stack
 
-- Java 17, Spring Boot 3.5
-- Spring Web, Spring Security, Spring Data JPA
-- JWT (`jjwt`), WebSocket / STOMP
-- MySQL
+- Java 17, Spring Boot 3.5  
+- Spring Web, Spring Security, Spring Data JPA  
+- JWT (`jjwt`), WebSocket / STOMP  
+- MySQL  
 
-## Structure
+## Layout
 
 ```text
 src/main/java/
-├── Repositories/                 Accès données (JPA)
+├── Repositories/                 JPA repositories
 └── com/example/demo/
-    ├── Controller/               Endpoints REST
-    ├── Service/                  Règles métier
-    ├── DTO/                      Request / Response
-    ├── Security/                 JWT
+    ├── Controller/               REST endpoints
+    ├── Service/                  Business logic
+    ├── DTO/                      Request / response models
+    ├── Security/                 JWT helpers
     ├── Config/                   Security, CORS, ModelMapper
-    └── …                         Entités (User, Salon, Message…)
+    └── …                         Entities (User, Salon, Message…)
 ```
 
 ## Configuration
@@ -29,24 +29,24 @@ src/main/java/
 cp src/main/resources/application.yml.example src/main/resources/application.yml
 ```
 
-Renseigner l’URL MySQL et les identifiants. Ne **jamais** committer `application.yml` avec des secrets.
+Set MySQL credentials. Do **not** commit a real `application.yml` with secrets.
 
-## Lancer
+## Run
 
 ```bash
 ./mvnw spring-boot:run
 ```
 
-Port par défaut : **2222** (voir `application.yml.example`).
+Default port: **2222**.
 
-## Endpoints (aperçu)
+## API surface (overview)
 
-Les contrôleurs exposent notamment :
+Controllers expose among others:
 
-- `User` — inscription, login, profil
-- `Salon` — CRUD / membres
-- `Message` — messages de salon
-- `Invitation` — invitations entre utilisateurs
-- WebSocket — config STOMP dans `StompWebSocketConfig`
+- `User` — register, login, profile  
+- `Salon` — rooms / members  
+- `Message` — room messages  
+- `Invitation` — invites between users  
+- WebSocket — STOMP config in `StompWebSocketConfig`  
 
-Les chemins exacts sont définis dans les classes `*Controller.java`.
+Exact paths live in the `*Controller.java` classes.

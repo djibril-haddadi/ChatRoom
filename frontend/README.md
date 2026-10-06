@@ -1,8 +1,8 @@
-# Frontend — Projet Chat
+# ChatRooms — Frontend
 
-Interface **React 19 + Vite** pour l’application de salons de discussion.
+**React 19 + Vite** UI for the ChatRooms discussion-rooms app.
 
-## Structure
+## Layout
 
 ```text
 src/
@@ -10,10 +10,10 @@ src/
 │   ├── auth/           AuthContext (JWT + user)
 │   └── dashboard/      SalonList
 ├── pages/              Home, Login, Register, Dashboard, Profile, ChatRoom, NotFound
-├── services/api.js     Client Axios + interceptor JWT
-├── styles/             CSS global
+├── services/api.js     Axios client + JWT interceptor
+├── styles/             Global CSS
 ├── App.jsx             Routes
-└── main.jsx            Entrée + BrowserRouter
+└── main.jsx            Entry + BrowserRouter
 ```
 
 ## Configuration
@@ -23,11 +23,11 @@ cp .env.example .env
 # VITE_API_URL=http://localhost:2222
 ```
 
-## Lancer
+## Run
 
 ```bash
 npm install
 npm run dev
 ```
 
-Ouvre [http://localhost:5173](http://localhost:5173). Le backend doit tourner sur le port configuré dans `.env`.
+Open [http://localhost:5173](http://localhost:5173). The backend should be running on the port set in `.env`.

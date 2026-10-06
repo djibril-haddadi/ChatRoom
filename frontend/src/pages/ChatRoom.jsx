@@ -93,7 +93,7 @@ export default function ChatRoom() {
       >
         <div>
           <h2 style={{ margin: 0 }}>{titre || 'Room'}</h2>
-          <small style={{ color: '#666' }}>ChatRooms</small>
+          <small style={{ color: '#666' }}>ChatRoom</small>
         </div>
         <div style={{ display: 'flex', gap: '8px' }}>
           <Link to="/dashboard">Dashboard</Link>

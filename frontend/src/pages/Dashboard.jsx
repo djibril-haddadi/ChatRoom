@@ -142,7 +142,7 @@ export default function Dashboard() {
         }}
       >
         <div>
-          <h1 style={{ margin: 0 }}>ChatRooms Dashboard</h1>
+          <h1 style={{ margin: 0 }}>ChatRoom Dashboard</h1>
           <p style={{ margin: '4px 0 0', color: '#555' }}>
             Signed in as {user?.pseudo || user?.email}
           </p>

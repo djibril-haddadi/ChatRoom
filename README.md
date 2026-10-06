@@ -1,4 +1,4 @@
-# ChatRooms
+# ChatRoom
 
 Full-stack **real-time discussion rooms** app — Spring Boot API + React (Vite) client, shipped as a monorepo.
 
@@ -23,13 +23,13 @@ Users can register, sign in with JWT, manage rooms from a dashboard, update thei
 ## Repository layout
 
 ```text
-ChatRooms/
+ChatRoom/
 ├── README.md
 ├── scripts/git-commit-clean.sh   Helper to commit without tooling trailers
 ├── backend/
 │   ├── pom.xml
 │   └── src/main/java/com/djibrilhaddadi/chatrooms/
-│       ├── ChatRoomsApplication.java
+│       ├── ChatRoomApplication.java
 │       ├── config/          Security, CORS, WebSocket
 │       ├── controller/      REST endpoints
 │       ├── dto/
@@ -103,7 +103,7 @@ UI: [http://localhost:5173](http://localhost:5173)
 | Command | Where | Purpose |
 |---------|--------|---------|
 | `./mvnw spring-boot:run` | `backend/` | Run the API |
-| `./mvnw test` | `backend/` | Run tests |
+| `./mvnw test` | `backend/` | Unit tests (JUnit + Mockito) |
 | `npm run dev` | `frontend/` | Vite dev server |
 | `npm run build` | `frontend/` | Production build |
 | `npm run lint` | `frontend/` | ESLint |

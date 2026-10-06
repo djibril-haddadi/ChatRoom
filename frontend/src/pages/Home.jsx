@@ -14,7 +14,7 @@ export default function Home() {
     return (
         <div className="home-container">
             <header className="home-header">
-                <h1>ChatRooms</h1>
+                <h1>ChatRoom</h1>
                 {isAuthenticated ? (
                     <div className="user-greeting">
                         <p>Bonjour, {user?.name || 'Utilisateur'} !</p>

@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableJpaRepositories("com.djibrilhaddadi.chatrooms.repository")
-public class ChatRoomsApplication {
+public class ChatRoomApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ChatRoomsApplication.class, args);
+		SpringApplication.run(ChatRoomApplication.class, args);
 	}
 
 }

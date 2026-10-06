@@ -17,6 +17,7 @@ backend/src/main/resources/application-local.yml
 
 # Backend
 backend/target/
+backend/.m2/
 backend/.mvn/wrapper/maven-wrapper.jar
 
 # Frontend

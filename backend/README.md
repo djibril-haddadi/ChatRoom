@@ -1,4 +1,4 @@
-# ChatRooms — Backend
+# ChatRoom — Backend
 
 **Spring Boot 3** API for real-time discussion rooms.
 
@@ -13,7 +13,7 @@
 
 ```text
 com.djibrilhaddadi.chatrooms/
-├── ChatRoomsApplication.java
+├── ChatRoomApplication.java
 ├── config/          WebConfig, StompWebSocketConfig
 ├── controller/      User, Salon, Message, Invitation, …
 ├── dto/
@@ -38,6 +38,17 @@ Set MySQL credentials and a long `app.jwt.secret`. Do **not** commit a real `app
 ```
 
 Default port: **2222**.
+
+## Unit tests
+
+Service-layer unit tests with **JUnit 5 + Mockito** (no database / no Spring context):
+
+```bash
+./mvnw test
+```
+
+Coverage focuses on `UserService`, `SalonService`, `MessageService`, `InvitationService`, and `JwtTokenProvider`.
+Integration tests were out of scope for the course timeline.
 
 ## Main HTTP routes
 

@@ -18,7 +18,7 @@ public class JwtTokenProvider {
     private final long validityInMilliseconds;
 
     public JwtTokenProvider(
-            @Value("${app.jwt.secret:ChatRoomsDevSecretKeyMustBeLongEnoughForHS256}") String secret,
+            @Value("${app.jwt.secret:ChatRoomDevSecretKeyMustBeLongEnoughForHS256}") String secret,
             @Value("${app.jwt.expiration-ms:3600000}") long validityInMilliseconds) {
         this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         this.validityInMilliseconds = validityInMilliseconds;

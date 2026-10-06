@@ -1,6 +1,6 @@
-# ChatRooms — Frontend
+# ChatRoom — Frontend
 
-**React 19 + Vite** UI for the ChatRooms discussion-rooms app.
+**React 19 + Vite** UI for the ChatRoom discussion-rooms app.
 
 ## Layout
 

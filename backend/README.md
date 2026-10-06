@@ -9,18 +9,18 @@
 - JWT (`jjwt`), WebSocket / STOMP  
 - MySQL  
 
-## Layout
+## Package layout
 
 ```text
-src/main/java/
-├── Repositories/                 JPA repositories
-└── com/example/demo/
-    ├── Controller/               REST endpoints
-    ├── Service/                  Business logic
-    ├── DTO/                      Request / response models
-    ├── Security/                 JWT helpers
-    ├── Config/                   Security, CORS, ModelMapper
-    └── …                         Entities (User, Salon, Message…)
+com.djibrilhaddadi.chatrooms/
+├── ChatRoomsApplication.java
+├── config/          WebConfig, StompWebSocketConfig
+├── controller/      User, Salon, Message, Invitation, …
+├── dto/
+├── entity/          User, Salon, Message, Invitation, …
+├── repository/
+├── security/        JwtTokenProvider
+└── service/
 ```
 
 ## Configuration
@@ -29,7 +29,7 @@ src/main/java/
 cp src/main/resources/application.yml.example src/main/resources/application.yml
 ```
 
-Set MySQL credentials. Do **not** commit a real `application.yml` with secrets.
+Set MySQL credentials and a long `app.jwt.secret`. Do **not** commit a real `application.yml` with secrets.
 
 ## Run
 
@@ -39,14 +39,16 @@ Set MySQL credentials. Do **not** commit a real `application.yml` with secrets.
 
 Default port: **2222**.
 
-## API surface (overview)
+## Main HTTP routes
 
-Controllers expose among others:
-
-- `User` — register, login, profile  
-- `Salon` — rooms / members  
-- `Message` — room messages  
-- `Invitation` — invites between users  
-- WebSocket — STOMP config in `StompWebSocketConfig`  
-
-Exact paths live in the `*Controller.java` classes.
+| Method | Path | Purpose |
+|--------|------|---------|
+| POST | `/User/add` | Register |
+| POST | `/User/login` | Login (returns JWT) |
+| GET | `/User/getByEmail` | Profile |
+| POST | `/Salon/add` | Create room |
+| GET | `/Salon/{email}/creator` | Rooms created by user |
+| GET | `/Salon/{email}/member` | Rooms the user belongs to |
+| GET | `/Salon/{titre}/messages` | Messages in a room |
+| POST | `/Message/add` | Send a message |
+| GET | `/Salon/{titre}/user` | Room members |

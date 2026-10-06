@@ -25,21 +25,27 @@ Users can register, sign in with JWT, manage rooms from a dashboard, update thei
 ```text
 ChatRooms/
 ├── README.md
-├── backend/                 Spring Boot (REST API, security, WebSocket)
+├── scripts/git-commit-clean.sh   Helper to commit without tooling trailers
+├── backend/
 │   ├── pom.xml
-│   ├── src/main/java/...
-│   └── src/main/resources/
-└── frontend/                React + Vite
+│   └── src/main/java/com/djibrilhaddadi/chatrooms/
+│       ├── ChatRoomsApplication.java
+│       ├── config/          Security, CORS, WebSocket
+│       ├── controller/      REST endpoints
+│       ├── dto/
+│       ├── entity/          User, Salon, Message, …
+│       ├── repository/
+│       ├── security/        JWT
+│       └── service/
+└── frontend/
     ├── package.json
     ├── .env.example
     └── src/
-        ├── components/      Reusable UI (auth, dashboard)
-        ├── pages/           Screens (Home, Login, Dashboard, Chat…)
-        ├── services/        HTTP client (Axios)
+        ├── components/      Auth context, shared UI
+        ├── pages/           Home, Login, Dashboard, ChatRoom, Profile…
+        ├── services/api.js  Axios + JWT interceptor
         └── styles/
 ```
-
-Frontend paths use a clear lowercase layout (`components/`, `pages/`, `services/`).
 
 ---
 

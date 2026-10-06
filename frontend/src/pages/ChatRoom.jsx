@@ -1,117 +1,207 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
-
+import { useCallback, useEffect, useState } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useAuth } from '../components/auth/AuthContext'
 import api from '../services/api'
 
-const ChatRoom = () => {
-    const { id } = useParams();
-    const [messageInput, setMessageInput] = useState("");
+export default function ChatRoom() {
+  const { id } = useParams()
+  const titre = decodeURIComponent(id || '')
+  const navigate = useNavigate()
+  const { user, isAuthenticated } = useAuth()
 
-    // 1. Liste des utilisateurs connectés (Ajout pour respecter la consigne)
-    // Dans un vrai projet, cela viendrait du Backend/WebSocket
-    const [connectedUsers] = useState([
-        { id: 1, name: "Lucas", status: "En ligne" },
-        { id: 2, name: "Moi", status: "En ligne" },
-        { id: 3, name: "Prof", status: "Absent" },
-        { id: 4, name: "Emma", status: "En ligne" },
-    ]);
+  const [messageInput, setMessageInput] = useState('')
+  const [messages, setMessages] = useState([])
+  const [members, setMembers] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+  const [sending, setSending] = useState(false)
 
-    const [messages, setMessages] = useState([
-        { sender: "Lucas", content: "Salut ! Tu as avancé sur le React ?", isMe: false },
-        { sender: "Moi", content: "Oui, j'ai fini le Dashboard !", isMe: true },
-        { sender: "Prof", content: "Très bien, continuez comme ça.", isMe: false }
-    ]);
+  const loadRoomData = useCallback(async () => {
+    if (!titre) return
+    setLoading(true)
+    setError('')
+    try {
+      const [messagesRes, membersRes] = await Promise.all([
+        api.get(`/Salon/${encodeURIComponent(titre)}/messages`),
+        api.get(`/Salon/${encodeURIComponent(titre)}/user`),
+      ])
+      setMessages(messagesRes.data || [])
+      setMembers(membersRes.data || [])
+    } catch (err) {
+      console.error(err)
+      setError('Unable to load room data from the API.')
+    } finally {
+      setLoading(false)
+    }
+  }, [titre])
 
-    const sendMessage = (e) => {
-        e.preventDefault();
-        if (messageInput.trim()) {
-            setMessages([...messages, { sender: "Moi", content: messageInput, isMe: true }]);
-            setMessageInput("");
-        }
-    };
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login')
+      return
+    }
+    loadRoomData()
+  }, [isAuthenticated, navigate, loadRoomData])
 
-    return (
-        // CONTENEUR PRINCIPAL : Flex Row pour séparer Chat et Utilisateurs
-        <div style={{
-            maxWidth: "1000px",
-            margin: "20px auto",
-            border: "1px solid #ccc",
-            borderRadius: "8px",
-            height: "80vh",
-            display: "flex",
-            overflow: "hidden" // Empêche le débordement global
-        }}>
+  const sendMessage = async (e) => {
+    e.preventDefault()
+    if (!messageInput.trim() || !user?.email) return
+    setSending(true)
+    setError('')
+    try {
+      await api.post('/Message/add', {
+        contenu: messageInput.trim(),
+        salonTitre: titre,
+        senderEmail: user.email,
+      })
+      setMessageInput('')
+      await loadRoomData()
+    } catch (err) {
+      console.error(err)
+      setError('Could not send the message.')
+    } finally {
+      setSending(false)
+    }
+  }
 
-            {/* --- PARTIE GAUCHE : LE CHAT (Flex 3) --- */}
-            <div style={{ flex: 3, display: "flex", flexDirection: "column", borderRight: "1px solid #ccc" }}>
+  if (!isAuthenticated) {
+    return null
+  }
 
-                {/* Titre du salon */}
-                <div style={{ padding: "15px", backgroundColor: "#007bff", color: "white" }}>
-                    <h3 style={{ margin: 0 }}>💬 Salon N°{id}</h3>
-                </div>
-
-                {/* Zone des messages */}
-                <div style={{ flex: 1, padding: "20px", overflowY: "auto", backgroundColor: "#f9f9f9" }}>
-                    {messages.map((msg, index) => (
-                        <div key={index} style={{
-                            display: "flex",
-                            justifyContent: msg.isMe ? "flex-end" : "flex-start",
-                            marginBottom: "10px"
-                        }}>
-                            <div style={{
-                                maxWidth: "70%",
-                                padding: "10px 15px",
-                                borderRadius: "15px",
-                                backgroundColor: msg.isMe ? "#007bff" : "white",
-                                color: msg.isMe ? "white" : "black",
-                                boxShadow: "0 1px 2px rgba(0,0,0,0.1)"
-                            }}>
-                                {!msg.isMe && <small style={{ fontWeight: "bold", display: "block", marginBottom: "5px" }}>{msg.sender}</small>}
-                                {msg.content}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-
-                {/* Input Message */}
-                <form onSubmit={sendMessage} style={{ padding: "15px", borderTop: "1px solid #ddd", display: "flex", gap: "10px", backgroundColor: "white" }}>
-                    <input
-                        type="text"
-                        placeholder="Écris un message..."
-                        value={messageInput}
-                        onChange={(e) => setMessageInput(e.target.value)}
-                        style={{ flex: 1, padding: "10px", borderRadius: "20px", border: "1px solid #ccc" }}
-                    />
-                    <button type="submit" style={{ padding: "10px 20px", borderRadius: "20px", border: "none", backgroundColor: "#28a745", color: "white", cursor: "pointer" }}>
-                        Envoyer
-                    </button>
-                </form>
-            </div>
-
-            {/* --- PARTIE DROITE : UTILISATEURS CONNECTÉS (Flex 1) --- */}
-            <div style={{ flex: 1, backgroundColor: "#fff", display: "flex", flexDirection: "column" }}>
-                <div style={{ padding: "15px", borderBottom: "1px solid #ddd", backgroundColor: "#f8f9fa" }}>
-                    <h4 style={{ margin: 0 }}>👥 Membres ({connectedUsers.length})</h4>
-                </div>
-
-                <ul style={{ listStyle: "none", padding: "0", margin: "0", overflowY: "auto" }}>
-                    {connectedUsers.map((user) => (
-                        <li key={user.id} style={{ padding: "12px 15px", borderBottom: "1px solid #eee", display: "flex", alignItems: "center", gap: "10px" }}>
-                            {/* Petite pastille de couleur pour le statut */}
-                            <span style={{
-                                width: "10px",
-                                height: "10px",
-                                borderRadius: "50%",
-                                backgroundColor: user.status === "En ligne" ? "#28a745" : "#ffc107"
-                            }}></span>
-                            <span>{user.name}</span>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-
+  return (
+    <div
+      style={{
+        maxWidth: '1000px',
+        margin: '20px auto',
+        border: '1px solid #ccc',
+        borderRadius: '8px',
+        height: '80vh',
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+      }}
+    >
+      <div
+        style={{
+          padding: '12px 16px',
+          borderBottom: '1px solid #ddd',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: '12px',
+        }}
+      >
+        <div>
+          <h2 style={{ margin: 0 }}>{titre || 'Room'}</h2>
+          <small style={{ color: '#666' }}>ChatRooms</small>
         </div>
-    );
-};
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <Link to="/dashboard">Dashboard</Link>
+          <button type="button" onClick={() => loadRoomData()}>
+            Refresh
+          </button>
+        </div>
+      </div>
 
-export default ChatRoom;
+      {error && (
+        <p style={{ color: '#b00020', margin: '8px 16px' }}>{error}</p>
+      )}
+
+      <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
+        <div style={{ flex: 3, display: 'flex', flexDirection: 'column', borderRight: '1px solid #ccc' }}>
+          <div style={{ flex: 1, padding: '16px', overflowY: 'auto', backgroundColor: '#f9f9f9' }}>
+            {loading && <p>Loading messages…</p>}
+            {!loading && messages.length === 0 && <p>No messages yet. Say hello!</p>}
+            {messages.map((msg, index) => {
+              const isMe = msg.senderEmail === user?.email
+              return (
+                <div
+                  key={`${msg.date || index}-${msg.senderEmail}-${index}`}
+                  style={{
+                    display: 'flex',
+                    justifyContent: isMe ? 'flex-end' : 'flex-start',
+                    marginBottom: '10px',
+                  }}
+                >
+                  <div
+                    style={{
+                      maxWidth: '70%',
+                      padding: '10px 15px',
+                      borderRadius: '15px',
+                      backgroundColor: isMe ? '#007bff' : 'white',
+                      color: isMe ? 'white' : 'black',
+                      boxShadow: '0 1px 2px rgba(0,0,0,0.1)',
+                    }}
+                  >
+                    {!isMe && (
+                      <small style={{ fontWeight: 'bold', display: 'block', marginBottom: '5px' }}>
+                        {msg.senderEmail}
+                      </small>
+                    )}
+                    {msg.contenu}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+
+          <form
+            onSubmit={sendMessage}
+            style={{
+              padding: '12px',
+              borderTop: '1px solid #ddd',
+              display: 'flex',
+              gap: '10px',
+              backgroundColor: 'white',
+            }}
+          >
+            <input
+              type="text"
+              placeholder="Write a message…"
+              value={messageInput}
+              onChange={(e) => setMessageInput(e.target.value)}
+              style={{ flex: 1, padding: '10px', borderRadius: '20px', border: '1px solid #ccc' }}
+              disabled={sending}
+            />
+            <button type="submit" disabled={sending || !messageInput.trim()}>
+              {sending ? 'Sending…' : 'Send'}
+            </button>
+          </form>
+        </div>
+
+        <aside style={{ flex: 1, backgroundColor: '#fff', display: 'flex', flexDirection: 'column' }}>
+          <div style={{ padding: '15px', borderBottom: '1px solid #ddd', backgroundColor: '#f8f9fa' }}>
+            <h4 style={{ margin: 0 }}>Members ({members.length})</h4>
+          </div>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0, overflowY: 'auto' }}>
+            {members.map((member) => (
+              <li
+                key={member.email}
+                style={{
+                  padding: '12px 15px',
+                  borderBottom: '1px solid #eee',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                }}
+              >
+                <span
+                  style={{
+                    width: '10px',
+                    height: '10px',
+                    borderRadius: '50%',
+                    backgroundColor: member.active ? '#28a745' : '#adb5bd',
+                  }}
+                />
+                <span>{member.pseudo || member.email}</span>
+              </li>
+            ))}
+            {!loading && members.length === 0 && (
+              <li style={{ padding: '12px 15px', color: '#666' }}>No members listed.</li>
+            )}
+          </ul>
+        </aside>
+      </div>
+    </div>
+  )
+}

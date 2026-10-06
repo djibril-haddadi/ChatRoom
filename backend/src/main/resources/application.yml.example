@@ -14,8 +14,8 @@ spring:
       hibernate:
         format_sql: true
 
-# Remplacer par une clé longue et secrète en local (ne pas committer le vrai fichier)
+# Use a long random secret locally (do not commit the real application.yml)
 app:
   jwt:
-    secret: CHANGE_ME_TO_A_LONG_RANDOM_SECRET
+    secret: CHANGE_ME_TO_A_LONG_RANDOM_SECRET_AT_LEAST_32_CHARS
     expiration-ms: 86400000

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat WebSocket multi-room</title>
+</head>
+<body>
+
+<h2>Chat WebSocket multi-room</h2>
+
+<!-- Choix du login -->
+<label>Pseudo :
+    <input type="text" id="loginInput" value="Ahmed">
+</label>
+<br><br>
+
+<!-- Choix de la room -->
+<label>Salon :
+    <input type="text" id="roomInput" value="1">
+</label>
+<button onclick="joinRoom()">Rejoindre le salon</button>
+<br><br>
+
+<!-- Zone de message -->
+<input type="text" id="msg" placeholder="Écris un message...">
+<button onclick="sendMessage()">Envoyer</button>
+
+<ul id="messages"></ul>
+
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+
+<script>
+    let socket = new SockJS('/ws');
+    let stompClient = Stomp.over(socket);
+
+    let currentRoom = null;      // room courante
+    let subscription = null;     // abonnement STOMP courant
+
+    let isConnected = false;
+
+    // Connexion au broker Spring
+    stompClient.connect({}, () => {
+        console.log("Connecté au WebSocket !");
+        isConnected = true;
+    });
+
+    // Fonction pour rejoindre un salon
+    function joinRoom() {
+        if (!isConnected) {
+            alert("Pas encore connecté au WebSocket.");
+            return;
+        }
+
+        const newRoom = document.getElementById("roomInput").value;
+
+        // Abonnement au nouveau salon
+        subscription = stompClient.subscribe('/topic/room/' + newRoom, msg => {
+            console.log("Message reçu dans room", newRoom, ":", msg.body);
+
+            const li = document.createElement("li");
+            li.innerText = "[room " + newRoom + "] " + msg.body;
+            document.getElementById("messages").appendChild(li);
+        });
+
+        currentRoom = newRoom;
+        console.log("Rejoint le salon :", currentRoom);
+        alert("Tu as rejoint le salon " + currentRoom);
+    }
+
+    // Envoi d’un message au serveur
+    function sendMessage() {
+        if (!isConnected) {
+            alert("Pas encore connecté au WebSocket.");
+            return;
+        }
+        if (!currentRoom) {
+            alert("Rejoins d'abord un salon.");
+            return;
+        }
+
+        const login = document.getElementById("loginInput").value;
+        const content = document.getElementById("msg").value;
+
+        stompClient.send(
+            "/app/room/" + currentRoom + "/send",
+            {},
+            JSON.stringify({
+                room: currentRoom,
+                login: login,
+                content: content
+            })
+        );
+
+        document.getElementById("msg").value = "";
+    }
+</script>
+
+</body>
+</html>
